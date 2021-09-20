@@ -14,7 +14,7 @@ class CreateAll extends Migration
     public function up()
     {
         
-        Schema::table('countries', function (Blueprint $table) {
+        Schema::create('countries', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
             $table->string('name');
             $table->string('country_code', 3);
@@ -106,8 +106,88 @@ class CreateAll extends Migration
             $table->decimal('amount_paid', 4, 2, true)->nullable();
             $table->timestamps();
             $table->softDeletes();
+        });
 
+        Schema::create('order_address', function (Blueprint $table) {
+            $table->bigInteger('order_id')->unsigned();
+            $table->foreign('order_id')->references('id')->on('orders')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('address_id')->unsigned();
             $table->foreign('address_id')->references('id')->on('address')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('invoices', function (Blueprint $table) {
+            $table->bigIncrements('id')->unsigned();
+            $table->unsignedBigInteger('order_id');
+            $table->text('invoice_all');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('order_id')->references('id')->on('orders')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('products', function (Blueprint $table) {
+            $table->bigIncrements('id')->unsigned();
+            $table->string('label');
+            $table->string('picture');
+            $table->text('description');
+            $table->string('EAN', 45);
+            $table->string('color', 7);
+            $table->decimal('unit_price_HT', 12, 2, true);
+            $table->string('supply_ref')->nullable();
+            $table->string('supply_name')->nullable();
+            $table->decimal('supply_unit_price_HT', 12, 2, true)->nullable();
+            $table->unsignedInteger('stock');
+            $table->unsignedInteger('stock_alert');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('supplier_product', function (Blueprint $table) {
+            $table->bigInteger('supplier_id')->unsigned();
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('order_product', function (Blueprint $table) {
+            //quantity and detail_products
+            $table->bigInteger('order_id')->unsigned();
+            $table->foreign('order_id')->references('id')->on('orders')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('categories', function (Blueprint $table) {
+            $table->bigIncrements('id')->unsigned();
+            $table->unsignedBigInteger('parent_id');
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('parent_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('category_product', function (Blueprint $table) {
+            $table->bigInteger('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('tags', function (Blueprint $table) {
+            $table->bigIncrements('id')->unsigned();
+            $table->string('name');
+            $table->string('color', 7);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('taggables', function (Blueprint $table) {
+            $table->bigIncrements('id')->unsigned();
+            $table->unsignedBigInteger('taggable_id');
+            $table->string('taggable_type');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
