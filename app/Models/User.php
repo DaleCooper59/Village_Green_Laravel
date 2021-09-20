@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -12,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -24,8 +26,14 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'username',
+        'firstname',
+        'lastname',
+        'age', 
+        'birth',
         'email',
+        'tel',
+        'verified',
         'password',
     ];
 
@@ -58,4 +66,19 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get all of the employees for the user.
+     */
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+    /**
+     * Get all of the customers for the user.
+     */
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
 }

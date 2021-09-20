@@ -32,7 +32,7 @@ class AlterUsers extends Migration
         });
 
         Schema::table('users', function (Blueprint $table) {
-           $table->string('tel', 14)->after('email_verified_at');
+           $table->unsignedInteger('tel')->after('email_verified_at');
         });
 
     }
