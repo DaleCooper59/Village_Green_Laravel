@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('factories',  [Controller::class, 'factories']);
 Route::get('test',  [Controller::class, 'test']);
+Route::get('insertProduct',  [Controller::class, 'insertProduct']);
 
 Route::get('/', function () {
     return view('welcome');

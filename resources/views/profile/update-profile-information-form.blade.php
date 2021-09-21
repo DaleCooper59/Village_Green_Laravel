@@ -97,7 +97,7 @@
         <!-- Tel -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="tel" value="{{ __('Tel') }}" />
-            <x-jet-input id="tel" type="tel" class="mt-1 block w-full" wire:model.defer="state.tel" />
+            <x-jet-input id="tel" type="text" class="mt-1 block w-full" wire:model.defer="state.tel" />
             <x-jet-input-error for="tel" class="mt-2" />
         </div>
     </x-slot>

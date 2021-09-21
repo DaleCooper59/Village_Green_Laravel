@@ -70,8 +70,8 @@ class CreateAll extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('address_id');
-            $table->decimal('coefficient', 4, 2, true);
             $table->string('type', 60);
+            $table->decimal('coefficient', 4, 2, true);
             $table->timestamps();
             $table->softDeletes();
 
@@ -83,7 +83,7 @@ class CreateAll extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->unsignedBigInteger('address_id');
             $table->string('name', 80);
-            $table->string('tel', 14);
+            $table->string('tel', 30);
             $table->string('email');
             $table->string('type');
             $table->timestamps();
@@ -128,13 +128,14 @@ class CreateAll extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
             $table->string('label');
+            $table->string('ref');
             $table->string('picture');
             $table->text('description');
             $table->string('EAN', 45);
-            $table->string('color', 7);
+            $table->string('color', 45);
             $table->decimal('unit_price_HT', 12, 2, true);
             $table->string('supply_ref')->nullable();
-            $table->string('supply_name')->nullable();
+            $table->string('supply_product_name')->nullable();
             $table->decimal('supply_unit_price_HT', 12, 2, true)->nullable();
             $table->unsignedInteger('stock');
             $table->unsignedInteger('stock_alert');

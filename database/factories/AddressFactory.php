@@ -3,17 +3,17 @@
 namespace Database\Factories;
 
 use App\Models\Address;
-use App\Models\Company;
+use App\Models\City;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CompanyFactory extends Factory
+class AddressFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Company::class;
+    protected $model = Address::class;
 
     /**
      * Define the model's default state.
@@ -22,12 +22,11 @@ class CompanyFactory extends Factory
      */
     public function definition()
     {
-        $address = Address::all()->pluck('id')->toArray();
-      
+        $city = City::all()->pluck('id')->toArray();
+
         return [
-            'address_id' => rand(1,count($address)),
-            'name' =>$this->faker->company(),
-            'SIRET' => trim(str_replace(' ', '',$this->faker->siret())),
+            'city_id' => rand(1,count($city)),
+            'street' => $this->faker->streetAddress(),
         ];
     }
 }

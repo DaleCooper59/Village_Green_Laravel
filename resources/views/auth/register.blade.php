@@ -39,7 +39,7 @@
 
             <div class="mt-4">
                 <x-jet-label for="tel" value="{{ __('Tel') }}" />
-                <x-jet-input id="tel" class="block mt-1 w-full" type="number" name="tel" :value="old('tel')" required />
+                <x-jet-input id="tel" class="block mt-1 w-full" type="text" name="tel" :value="old('tel')" required />
             </div>
 
             <div class="mt-4">
