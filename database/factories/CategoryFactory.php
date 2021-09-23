@@ -24,7 +24,7 @@ class CategoryFactory extends Factory
         $parent = Category::all()->pluck('id')->toArray();
         
         return [
-            //'name' => $this->faker->city(),
+            'name' => $this->faker->city(),
             'parent_id' => rand(1,count($parent))
         ];
     }

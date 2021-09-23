@@ -13,12 +13,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Route::get('factories',  [Controller::class, 'factories']);
 Route::get('test',  [Controller::class, 'test']);
 Route::get('insertProduct',  [Controller::class, 'insertProduct']);
+Route::get('insertCategories',  [Controller::class, 'insertCategories']);
+Route::get('insertTags',  [Controller::class, 'insertTags']);
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.index');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

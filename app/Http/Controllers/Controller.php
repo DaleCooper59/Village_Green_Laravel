@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Category;
 use App\Models\City;
 use App\Models\Company;
 use App\Models\Country;
 use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Supplier;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -33,8 +37,34 @@ class Controller extends BaseController
         Address::factory()->count(3)->create();
         Company::factory()->count(3)->create();
         Customer::factory()->count(3)->create();
+        Employee::factory()->count(3)->create();
+        Supplier::factory()->count(3)->create();
 
-        
+    }
+
+    public function insertCategories(){
+        $categories = ['Bois', 'Claviers', 'Cordes', 'Cuivres', 'Percussions', 'Batteries', 'Guitares', 'Sono', 'Accessoires',
+         'Basse', 'Electrique', 'Accoustique', 'clavier électronique & synthétiseur', 'Piano droit', 'Piano premium', 'Violon',
+          'Saxophone', 'Batterie', 'Pad', 'Xylophone', 'Sitar', 'Harmonica', 'Platine vinyle', 'Contrôleur', 'Casque', 'Table de mixage', 'Logiciel', 'effet sonore'];
+
+          for ($i=0; $i < count($categories); $i++) {
+            
+             Category::create([
+                 'parent_id' => null,
+                 'name' => $categories[$i],
+             ]);
+         }
+    }
+
+    public function insertTags(){
+        $tags = ['En cours de Livraison','Livré', 'En préparation', 'Stock critique', 'Stock bas', 'En stock'];
+
+          for ($i=0; $i < count($tags); $i++) {
+             Tag::create([
+                 'name' => $tags[$i],
+                 'color' => '#e2e2e2',
+             ]);
+         }
     }
 
     public function insertProduct(){
@@ -98,13 +128,13 @@ class Controller extends BaseController
             Product::create([
                 'label' => $labels[$i],
                 'ref' => $refs[$i],
-                'picture' => "path",
+                'picture' => $i,
                 'description' => $descriptions[$i],
                 'EAN' => "Code barre",
                 'color' => $colors[$i],
                 'unit_price_HT' => $prices[$i],
                 'supply_ref' => $randomChar,
-                'supply_product_name' => substr($labels[$i],-1,-5),
+                'supply_product_name' => substr($labels[$i],-4,-1),
                 'supply_unit_price_HT' => $prices[$i]*0.8,
                 'stock' => $stock,
                 'stock_alert' => $stock > 1 ? $stock * 0.4 : 0,

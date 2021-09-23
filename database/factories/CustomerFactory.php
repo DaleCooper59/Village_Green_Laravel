@@ -28,8 +28,8 @@ class CustomerFactory extends Factory
         $type = ['professionnel','particulier'];
         $choice = $this->faker->randomElement($type);
         return [
-            'user_id' => rand(1,count($user)),
-            'address_id' => rand(1,count($address)),
+            'user_id' => $this->faker->unique(true)->numberBetween(1,count($user)),
+            'address_id' => $this->faker->numberBetween(1,count($address)),
             'type' => $choice,
             'coefficient' => $choice === 'professionnel' ? 2.2 : 5.6,
         ];

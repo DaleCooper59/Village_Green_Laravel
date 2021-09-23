@@ -160,7 +160,7 @@ class CreateAll extends Migration
 
         Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
-            $table->unsignedBigInteger('parent_id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name');
             $table->timestamps();
             $table->softDeletes();

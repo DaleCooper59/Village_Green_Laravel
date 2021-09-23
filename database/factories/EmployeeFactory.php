@@ -27,8 +27,8 @@ class EmployeeFactory extends Factory
         $company = Company::all()->pluck('id')->toArray();
         $department = ['professionnel','particulier'];
         return [
-            'user_id' => rand(1,count($user)),
-            'company_id' => rand(0,count($company)),
+            'user_id' => $this->faker->unique(true)->numberBetween(1,count($user)),
+            'company_id' => rand(1,count($company)),
             'department' => $this->faker->randomElement($department),
         ];
     }
