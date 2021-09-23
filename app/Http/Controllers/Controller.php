@@ -56,6 +56,7 @@ class Controller extends BaseController
          }
     }
 
+
     public function insertTags(){
         $tags = ['En cours de Livraison','Livré', 'En préparation', 'Stock critique', 'Stock bas', 'En stock'];
 

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +23,28 @@ Route::get('insertProduct',  [Controller::class, 'insertProduct']);
 Route::get('insertCategories',  [Controller::class, 'insertCategories']);
 Route::get('insertTags',  [Controller::class, 'insertTags']);
 
-Route::get('/', function () {
-    return view('layouts.index');
+
+
+Route::middleware('guest')->group(function () {
+    Route::get('/', function () {
+        return view('index');
+    });
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+
+    //Acceuil
+    Route::get('/index',  [ProductController::class, 'index'])->name('index');
+  
+    //Catégories
+    Route::get('categories/categoriesChild/{categories}',  [CategoryController::class, 'categoriesChild'])->name('categories.categoriesChild');
+  
+    
+    ////ADMIN////
+    //Route::middleware('admin')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('dashboard');
+   // });
+});

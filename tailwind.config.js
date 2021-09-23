@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
     mode: 'jit',
@@ -10,12 +11,27 @@ module.exports = {
     ],
 
     theme: {
+       
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+             colors:{
+                red_custom:{
+                    light: '#',
+                    DEFAULT: '#C97B7D',
+                    dark: '#',
+                }
+             },
         },
     },
 
+    variants: {
+        extend: {
+            filter: ['hover', 'focus'],
+            overflow: ['hover', 'focus'],
+        },
+        
+    },
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };
