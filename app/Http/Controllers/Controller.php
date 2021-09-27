@@ -52,6 +52,7 @@ class Controller extends BaseController
              Category::create([
                  'parent_id' => null,
                  'name' => $categories[$i],
+                 'picture' => 'CATEGORIES_' . $categories[$i] . '.png',
              ]);
          }
     }
@@ -129,7 +130,7 @@ class Controller extends BaseController
             Product::create([
                 'label' => $labels[$i],
                 'ref' => $refs[$i],
-                'picture' => $i,
+                'picture' => $i+1 . '.png',
                 'description' => $descriptions[$i],
                 'EAN' => "Code barre",
                 'color' => $colors[$i],

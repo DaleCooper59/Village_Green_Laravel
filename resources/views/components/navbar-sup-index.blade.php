@@ -1,4 +1,5 @@
-<ul class="absolute z-10 top-0 flex items-center justify-end w-full h-10 bg-gradient-to-r from-gray-200 via-white to-white sm:items-center sm:pt-0">
+<div class="flex justify-end">
+<ul class="absolute z-10 top-0 flex items-center justify-end w-full lg:w-3/4 mx-auto h-10 bg-gradient-to-r from-gray-100 via-white to-white sm:items-center sm:pt-0">
     <!---------------------Connexion-------------->
     @if (Route::has('login'))
        
@@ -30,3 +31,4 @@
         
     @endif
 </ul>
+</div>

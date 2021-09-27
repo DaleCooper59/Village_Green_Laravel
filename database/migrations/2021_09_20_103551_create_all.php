@@ -162,6 +162,7 @@ class CreateAll extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name');
+            $table->string('picture');
             $table->timestamps();
             $table->softDeletes();
 

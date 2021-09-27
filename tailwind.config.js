@@ -21,6 +21,11 @@ module.exports = {
                     light: '#',
                     DEFAULT: '#C97B7D',
                     dark: '#',
+                },
+                gray_custom:{
+                    light: '#',
+                    DEFAULT: '#323232',
+                    dark: '#343434',
                 }
              },
         },
@@ -30,6 +35,7 @@ module.exports = {
         extend: {
             filter: ['hover', 'focus'],
             overflow: ['hover', 'focus'],
+            zIndex: ['hover', 'active'],
         },
         
     },

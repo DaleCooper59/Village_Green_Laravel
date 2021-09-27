@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" type="text/css" >
 
     @yield('css')
 
@@ -23,14 +24,24 @@
 </head>
 
 <body class="antialiased">
+    <div class="w-full lg:w-3/4 mx-auto">
+        @yield('navbar')
 
-    @yield('navbar')
+        <main class="container mx-auto px-12 md:px-20 h-min-full mt-36 md:mt-44">
 
-    <main class="container mx-auto px-12 md:px-20 h-min-full mt-36 md:mt-44">
-        @yield('content')
-    </main>
+            @include('layouts/ad_banner')
 
-    @yield('js_footer')
+            @include('layouts/garantie_banner')
+
+            @yield('content')
+
+        </main>
+
+        @yield('js_footer')
+
+        @include('layouts/footer')
+    </div>
+   
 </body>
 
 </html>

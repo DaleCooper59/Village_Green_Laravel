@@ -1,0 +1,1 @@
+<div class="w-full my-2 flex justify-center"><img src="{{asset('img/charte/BODY/banniere_centre_4_pictos.png')}}" alt="garanties"></div>

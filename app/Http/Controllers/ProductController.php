@@ -15,4 +15,22 @@ class ProductController extends Controller
         return view('index', compact('products', 'categories'));
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
+    {
+        //$comments = $product->comments;
+ 
+        //$user = $product->comments->pluck('users.username')->first();
+     
+        return view('products.show', [
+            'product' => $product,
+            //'comments' => $comments, 
+            //'username' => $user === null ? '' : $user
+        ]);
+    }
 }
