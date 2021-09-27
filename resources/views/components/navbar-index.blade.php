@@ -54,7 +54,7 @@
         scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
         progress.style.setProperty('--scroll', scroll + '%');
         scrollpos = window.scrollY;
-    console.log(scrollpos);
+    
         if (scrollpos > 10) {
             header.classList.add("bg-gray-400");
             header.classList.remove("top-10");

@@ -27,7 +27,7 @@ Route::get('insertTags',  [Controller::class, 'insertTags']);
 
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
-        return view('index');
+        return view('auth/login');
     });
 });
 
