@@ -9,14 +9,22 @@ class CategoryController extends Controller
 {
     public function index(){
         $categories = Category::all();
-        
+
         return view('categories.index', compact('categories'));
     }
 
-    public function categoriesChild(Request $request){
+    public function categoriesChild(Category $category){
        
-        $categories = Category::where('parent_id',2)->get();
-
+        
+        $categories = $category->where('parent_id',$category->id)->get();
+        
         return view('categories.categoriesChild', compact('categories'));
+    }
+
+    public function show(Category $category){
+
+        $products =  $category->products()->get();
+        
+        return view('categories.show', compact('category', 'products'));
     }
 }

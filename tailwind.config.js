@@ -26,6 +26,11 @@ module.exports = {
                     light: '#',
                     DEFAULT: '#323232',
                     dark: '#343434',
+                },
+                brownish:{
+                    light: '#',
+                    DEFAULT:'#BC4A00',
+                    dark: '#',
                 }
              },
         },

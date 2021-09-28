@@ -1,11 +1,12 @@
 <div>
-    <nav id="header" class="fixed bg-gray-300 text-white w-full lg:w-3/4 h-20 z-20 top-10">
+    <nav id="header" class="fixed bg-gray-300 text-white w-full lg:w-3/4 h-20 z-40 top-10">
         <div id="progress" class="h-1 z-40 top-10"
             style="background:linear-gradient(to right, #D08591 var(--scroll), transparent 0);"></div>
         <div class="w-full mx-auto flex flex-wrap items-center justify-between h-20 mt-0 ">
             <div class="block lg:absolute z-40 pl-8 lg:pl-0 p-2">
-                <a class="block text-red-400 font-bold text-base no-underline hover:no-underline" href="#">
-                 Logo <img class="lg:block hidden" src="{{ asset('img/logo_village_green.png') }}" alt="Logo">
+                <img id="logo" class="lg:block hidden" src="{{ asset('img/logo_village_green.png') }}" alt="Logo">
+                <a class="lg:hidden block text-red-400 font-bold text-base no-underline" href="#">
+                Village Green
                 </a>
             </div>
             <div class="block lg:hidden pr-4">
@@ -49,6 +50,7 @@
     var scrollpos = window.scrollY;
     var header = document.getElementById("header");
     var navcontent = document.getElementById("nav-content");
+    let logo = document.getElementById("logo");
     
     document.addEventListener('scroll', function () { 
         scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
@@ -61,6 +63,7 @@
             header.classList.add("top-0");
             navcontent.classList.remove("bg-gray-300");
             navcontent.classList.add("bg-gray-400");
+            logo.classList.add("w-48", 'opacity-50');
         } else {
             header.classList.remove("bg-gray-300");
             header.classList.remove("top-0");

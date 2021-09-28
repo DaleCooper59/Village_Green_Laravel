@@ -12,7 +12,9 @@ class ProductController extends Controller
        
         $products = Product::all();
         $categories = Category::all();
-        return view('index', compact('products', 'categories'));
+        $categoriesParent =  Category::whereNull('parent_id')->with('children')->get();
+        
+        return view('index', compact('products', 'categories', 'categoriesParent'));
     }
 
     /**

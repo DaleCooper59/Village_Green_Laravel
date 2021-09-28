@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,300;1,700&display=swap');
+
+body{
+    font-family:'Roboto', sans-serif;
+    background-color: #b8c6db;
+background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 74%);
+    
+}
+
+footer li:hover{
+    color: #E7E7E7;
+    cursor:pointer;
+}
+
+#nav_categories{
+    top:7.5rem;
+    overflow-x:scroll;
+    withe-space:no-wrap;
+}
+
+#paraph{
+    font-style: italic;
+}

@@ -24,7 +24,7 @@
 </head>
 
 <body class="antialiased">
-    <div class="w-full lg:w-3/4 mx-auto">
+    <div id="content_page" class="w-full lg:w-3/4 mx-auto">
         @yield('navbar')
 
         <main class="container mx-auto px-12 md:px-20 h-min-full mt-36 md:mt-44">
@@ -37,11 +37,10 @@
 
         </main>
 
-        @yield('js_footer')
-
-        @include('layouts/footer')
+       
     </div>
-   
+    @include('layouts/footer')
+    @yield('js_footer')
 </body>
 
 </html>

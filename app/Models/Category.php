@@ -17,15 +17,23 @@ class Category extends Model
     /**
      * Get the products for the category.
      */
-    public function categories()
+    public function products()
     {
         return $this->belongsToMany(Product::class, 'category_product', 'category_id', 'product_id');
     }
     /**
-     * Get the categories for the parent.
+     * Get the children Categories.
      */
-    /*public function categoryChild()
+    public function parent()
     {
-        return $this->belongsTo(Address::class, 'address_id');
-    }*/
+        return $this->hasOne(Category::class);   
+    }
+    /**
+     * Get the children Categories.
+     */
+    public function children()
+    {
+        return $this->hasMany(Category::class,'parent_id', 'id');   
+    }
+    
 }

@@ -17,13 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('factories',  [Controller::class, 'factories']);
 Route::get('test',  [Controller::class, 'test']);
-Route::get('insertProduct',  [Controller::class, 'insertProduct']);
-Route::get('insertCategories',  [Controller::class, 'insertCategories']);
-Route::get('insertTags',  [Controller::class, 'insertTags']);
-
-
 
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
@@ -38,7 +32,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/index',  [ProductController::class, 'index'])->name('index');
   
     //Catégories
-    Route::get('categories/categoriesChild/{categories}',  [CategoryController::class, 'categoriesChild'])->name('categories.categoriesChild');
+    Route::resource('categories', '\App\Http\Controllers\CategoryController');
+    Route::get('categories/categoriesChild/{category}',  [CategoryController::class, 'categoriesChild'])->name('categories.categoriesChild');
   
     
     ////ADMIN////
