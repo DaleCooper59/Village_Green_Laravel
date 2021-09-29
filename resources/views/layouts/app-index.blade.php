@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" type="text/css" >
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" type="text/css">
 
     @yield('css')
 
@@ -25,19 +25,16 @@
 
 <body class="antialiased">
     <div id="content_page" class="w-full lg:w-3/4 mx-auto">
+
+        <x-navbar-sup-index />
+        <x-navbar-index />
         @yield('navbar')
 
-        <main class="container mx-auto px-12 md:px-20 h-min-full mt-36 md:mt-44">
+        @include('layouts/flashMessage')
 
-            @include('layouts/ad_banner')
 
-            @include('layouts/garantie_banner')
+        @yield('content')
 
-            @yield('content')
-
-        </main>
-
-       
     </div>
     @include('layouts/footer')
     @yield('js_footer')

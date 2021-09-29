@@ -30,6 +30,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     //Acceuil
     Route::get('/index',  [ProductController::class, 'index'])->name('index');
+    
+    //Dashboard
+    Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('dashboard');
   
     //Catégories
     Route::resource('categories', '\App\Http\Controllers\CategoryController');
@@ -38,8 +43,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     ////ADMIN////
     //Route::middleware('admin')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+        Route::get('products/create',  [ProductController::class, 'create'])->name('products.create');
+        Route::post('products/store',  [ProductController::class, 'store'])->name('products.store');
+        Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
    // });
 });
