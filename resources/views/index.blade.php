@@ -29,9 +29,9 @@
                     </ul>
                 @endif
             </div>
-
+           
         @endforeach
-
+ <a href="{{ route('categories.index') }}" class="font-semibold py-1 mx-2 inline-block">Tous</a>
     </div>
 
 
@@ -49,7 +49,7 @@
             @foreach ($categoriesParent as $category)
                 <a href="{{ route('categories.categoriesChild', $category->id) }}"
                     class="relative z-30 hover:z-0 text-white">
-                    <img class="w-full h-56 bg-white" src="{{ asset('img/charte/BODY/' . $category->picture) }}" alt="">
+                    <img class="w-full md:h-52 h-44 bg-white" src="{{ asset('img/charte/BODY/' . $category->picture) }}" alt="">
                     <span
                         class="absolute top-0 left-0 text-md tracking-tight font-medium leading-7 font-regular text-red-900 hover:underline">{{ $category->name }}
                     </span>

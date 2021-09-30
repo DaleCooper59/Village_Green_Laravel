@@ -166,12 +166,16 @@ class insertDatas extends Command
         153278.00,72894.00,16174.00,777.00,349.00,2450.00,745.00,266.00,189.00,255.00,35.00,1555.00,225.00,1938.00,279.00,459.00];
     
         for ($i=0; $i < count($labels); $i++) {
+            $extension = '.png';
+            if($i > 11){
+                $extension = '.jpg';
+            }
            $randomChar = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"),0,4) . substr(str_shuffle("0123456789"),0,2);
            $stock = 160000/$prices[$i];
             Product::create([
                 'label' => $labels[$i],
                 'ref' => $refs[$i],
-                'picture' => $i+1 . '.png',
+                'picture' => $i+1 . $extension,
                 'description' => $descriptions[$i],
                 'EAN' => "Code barre",
                 'color' => $colors[$i],

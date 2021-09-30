@@ -4,8 +4,8 @@
             style="background:linear-gradient(to right, #D08591 var(--scroll), transparent 0);"></div>
         <div class="w-full mx-auto flex flex-wrap items-center justify-between h-20 mt-0 ">
             <div class="block lg:absolute z-40 pl-8 lg:pl-0 p-2">
-                <img id="logo" class="lg:block hidden" src="{{ asset('img/logo_village_green.png') }}" alt="Logo">
-                <a class="lg:hidden block text-red-400 font-bold text-base no-underline" href="#">
+                <img id="logo" class="xl:block hidden" src="{{ asset('img/logo_village_green.png') }}" alt="Logo">
+                <a class="xl:hidden block ml-3 text-2xl italic font-bold no-underline" href="{{ route('index') }}">
                 Village Green
                 </a>
             </div>
