@@ -5,22 +5,22 @@
        
         @auth
             <li>
-                <x-buttonConnexion path="{{ url('/dashboard') }}" action='Dashboard'
+                <x-button path="{{ url('/dashboard') }}" action='Dashboard'
                     class=" h-7 hover:bg-gray-400 text-gray-800 " />
             </li>
             <li>
-                <x-buttonConnexion path="{{ url('/dashboard') }}" action='Espace Client'
+                <x-button path="{{ url('/dashboard') }}" action='Espace Client'
                     class=" h-7 bg-red_custom hover:bg-white text-gray-800" />
             </li>
         @else
             <li>
-                <x-buttonConnexion path="{{ route('login') }}" action='Se connecter'
+                <x-button path="{{ route('login') }}" action='Se connecter'
                     class=" h-7 bg-green-200 hover:bg-gray-400 text-gray-800" />
             </li>
 
             @if (Route::has('register'))
                 <li>
-                    <x-buttonConnexion path="{{ route('register') }}" action='Créer un compte'
+                    <x-button path="{{ route('register') }}" action='Créer un compte'
                         class=" h-7  hover:bg-gray-400 text-gray-800" />
                 </li>
             @endif

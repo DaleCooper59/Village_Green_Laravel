@@ -4,7 +4,7 @@
     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
         @if (session()->has($msg))
             <div x-data="{show:true}" 
-                    x-init="setTimeout(()=>show = false, 35000)"
+                    x-init="setTimeout(()=>show = false, 5000)"
                     x-show="show">
                 
                 @if($msg === 'success')

@@ -44,8 +44,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     ////ADMIN////
     //Route::middleware('admin')->group(function () {
+        //Route::resource('products', '\App\Http\Controllers\ProductController');
         Route::get('products/create',  [ProductController::class, 'create'])->name('products.create');
         Route::post('products/store',  [ProductController::class, 'store'])->name('products.store');
         Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
+        Route::get('products/edit/{product}', [ProductController::class, 'edit'])->name('products.edit');
+        Route::post('products/update/{product}', [ProductController::class, 'update'])->name('products.update');
+        Route::delete('products/destroy/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
    // });
 });

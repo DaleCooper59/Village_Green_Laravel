@@ -19,8 +19,10 @@
 
                 <div class="md:pt-8">
 
-                    <h1 class="text-gray-800 text-2xl sm:text-3xl font-bold text-center md:text-left mb-4 md:mb-6">
-                        {{ $products->label }}</h1>
+                    <h1 class="text-gray-800 text-2xl sm:text-3xl font-bold text-center md:text-left mb-4">
+                        {{ $products->label }}</h1> 
+                        <x-button path="{{route('products.edit', $products->id) }} " action='Éditer' class="inline-block m-0 mb-1 font-medium bg-red_custom-light hover:bg-red_custom" />
+                        <x-button path="{{route('products.destroy', $products->id)  }}" action='Effacer' class="inline-block m-0 mb-1 font-medium bg-red_custom hover:bg-red_custom-dark text-gray-800" />
                     <h3 class="text-gray-400 italic text-md text-center md:text-left mb-4 md:mb-6">{{ $products->color }}
                     </h3>
                     <span>{{ $products->ref }}</span>

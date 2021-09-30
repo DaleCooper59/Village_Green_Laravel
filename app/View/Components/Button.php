@@ -4,16 +4,19 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class LargeCard extends Component
+class Button extends Component
 {
+    public $action;
+    public $path;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($action, $path)
     {
-        //
+        $this->action = $action;
+        $this->path = $path;
     }
 
     /**
@@ -23,6 +26,6 @@ class LargeCard extends Component
      */
     public function render()
     {
-        return view('components.large-card');
+        return view('components.button');
     }
 }

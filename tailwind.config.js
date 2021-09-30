@@ -18,9 +18,9 @@ module.exports = {
             },
              colors:{
                 red_custom:{
-                    light: '#',
+                    light: '#f0bbbc',
                     DEFAULT: '#C97B7D',
-                    dark: '#',
+                    dark: '#a34b4d',
                 },
                 gray_custom:{
                     light: '#',
