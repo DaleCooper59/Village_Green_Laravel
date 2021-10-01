@@ -1,140 +1,179 @@
-<form method="post" action="{{ route('products.store') }}" enctype="multipart/form-data">
-    @csrf
+@extends('layouts.app-index')
 
+@section('content')
+    <div class="bg-white mt-10 py-10 sm:py-16 lg:py-24">
+        <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
 
-    <label for="label">
-        Nom du Produit
-    </label>
-    <input class="" id="label" type="text" name="label" placeholder="Jane" value="{{ old('label') }}" required>
+            <div class="mb-10 md:mb-16">
+                <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6">Formulaire d'ajout de
+                    produit</h2>
 
-    @error('label')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+            </div>
 
-    <label for="ref">
-        Référence produit
-    </label>
-    <input class="" id="ref" type="text" name="ref" placeholder="GUIT01" value="{{ old('ref') }}" required>
+            <!-- form - start -->
+            <form method="post" action="{{ route('products.store') }}" enctype="multipart/form-data"
+                class="max-w-screen-md grid sm:grid-cols-2 gap-4 mx-auto">
+                @csrf
 
-    @error('ref')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----label---->
+                <div>
+                    <label for="label" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Nom du Produit*</label>
+                    <input name="label" id="label" type="text" value="{{ old('label') }}"
+                        placeholder="Maracas"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    
-    <label class="" for=" picture">
-        Photo du produit
-    </label>
-    <input class=""
-            id="picture" name="picture" type="file" value="{{ old('picture') }}" required>
+                    @error('label')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('picture')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----ref---->
+                <div>
+                    <label for="ref" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Référence produit*</label>
+                    <input name="ref" id="ref" type="text" value="{{ old('ref') }}" placeholder="MAR01"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    <label for="description">
-        Description du produit
-    </label>
-    <textarea class="" id="description" type="text" name="description" placeholder="lorem ..." value="{{ old('description') }}" required></textarea>
+                    @error('ref')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('description')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----picture---->
+                <div class="sm:col-span-2">
+                    <label for="picture" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Photo du
+                        produit*</label>
+                    <input name="picture" id="picture" name="picture" type="file" value="{{ old('picture') }}"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2" />
 
-    <label for="EAN">
-        Code barre
-    </label>
-    <input class="" id="EAN" type="text" name="EAN" value="{{ old('EAN') }}" required>
+                    @error('picture')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('EAN')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----description---->
+                <div class="sm:col-span-2">
+                    <label for="description"
+                        class="inline-block text-gray-800 text-sm sm:text-base mb-2">Description*</label>
+                    <textarea name="description" id="description" type="text" name="description"
+                        value="{{ old('description') }}" placeholder="Il s'agit de petites ..."
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300"></textarea>
 
-    <label for="color">
-        Couleur(s) dominante(s)
-    </label>
-    <input class="" id="color" type="text" name="color" value="{{ old('color') }}" required>
+                    @error('description')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('color')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----EAN---->
+                <div>
+                    <label for="EAN" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Code barre</label>
+                    <input name="EAN" id="EAN" type="text" value="{{ old('EAN') }}" placeholder="010201421"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    <label for="unit_price_HT">
-        Prix unitaire hors taxe
-    </label>
-    <input class="" id="unit_price_HT" type="number" min="0" step=".01" value="0" name="unit_price_HT" value="{{ old('unit_price_HT') }}" required>
+                    @error('EAN')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('unit_price_HT')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----color---->
+                <div>
+                    <label for="color" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Couleur(s) du
+                        produit</label>
+                    <input name="color" id="color" type="text" value="{{ old('color') }}"
+                        placeholder="fushia"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    <label for="supply_ref">
-        Référence produit du fournisseur
-    </label>
-    <input class="" id="supply_ref" type="text" name="supply_ref" placeholder="bla..." value="{{ old('supply_ref') }}" required>
+                    @error('color')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('supply_ref')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----unit_price_HT---->
+                <div class="sm:col-span-2">
+                    <label for="unit_price_HT" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Prix unitaire
+                        hors taxe proposé à la vente*</label>
+                    <input name="unit_price_HT" id="unit_price_HT" type="number" min="0" step=".01"
+                        value="{{ old('unit_price_HT') }}" placeholder="30.99"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    <label for="supply_product_name">
-        Nom du produit fournisseur
-    </label>
-    <input class="" id="supply_product_name" type="text" name="supply_product_name" placeholder="Nom donné par le fournissuer" value="{{ old('supply_product_name') }}" required>
+                    @error('unit_price_HT')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('supply_product_name')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----supply_ref---->
+                <div>
+                    <label for="supply_ref" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Référence produit
+                        fournisseur*</label>
+                    <input name="supply_ref" id="supply_ref" type="text" value="{{ old('supply_ref') }}"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    <label for="supply_unit_price_HT">
-        prix unitaire hors taxe du fournisseur
-    </label>
-    <input class="" id="supply_unit_price_HT" type="number" min="0" step=".01" value="0" name="supply_unit_price_HT" value="{{ old('supply_unit_price_HT') }}" required>
+                    @error('supply_ref')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('supply_unit_price_HT')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----supply_product_name---->
+                <div>
+                    <label for="supply_product_name" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Nom de
+                        produit du fournisseur*</label>
+                    <input name="supply_product_name" id="supply_product_name" type="text"
+                        value="{{ old('supply_product_name') }}" 
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    <label for="stock">
-        Stock disponible à la vente
-    </label>
-    <input class="" id="stock" type="number" min="1" step="1" value="1" name="stock" value="{{ old('stock') }}" required>
+                    @error('supply_product_name')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('stock')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----supply_unit_price_HT---->
+                <div class="sm:col-span-2">
+                    <label for="supply_unit_price_HT" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Prix
+                        unitaire hors taxe du fournisseur*</label>
+                    <input name="supply_unit_price_HT" id="supply_unit_price_HT" type="number" min="0" step=".01"
+                        value="{{ old('supply_unit_price_HT') }}" 
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    <label for="stock_alert">
-        Stock_alert disponible à la vente
-    </label>
-    <input class="" id="stock_alert" type="number" min="0" step="1" value="0" name="stock_alert" value="{{ old('stock_alert') }}" required>
+                    @error('supply_unit_price_HT')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    @error('stock_alert')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
+                <!----stock---->
+                <div>
+                    <label for="stock" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Stock disponible à la
+                        vente*</label>
+                    <input name="stock" id="stock" type="number" min="1" step="1" value="{{ old('stock') }}"
+                        placeholder="100"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-    
-    <label class="" for=" categories">
-        Catégories
-    </label>
+                    @error('stock')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
-    <select class=""
-                id="category" name="category" value="{{ old('category') }}">
+                <!----stock_alert---->
+                <div>
+                    <label for="stock_alert" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Stock_alert
+                        disponible à la vente*</label>
+                    <input name="stock_alert" id="stock_alert" type="number" min="0" step="1"
+                        value="{{ old('stock_alert') }}" 
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-        @foreach ($categories as $c)
-            <option value="{{ $c->id }}">{{ $c->name }}</option>
-        @endforeach
-    </select>
+                    @error('stock_alert')
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
 
+                <!----submit---->
+                <div class="sm:col-span-2 flex justify-between items-center">
+                    <button type="submit"
+                        class="font-semibold py-1 px-4 mr-3 rounded shadow cursor-pointer inline-block m-0 mb-1 font-medium bg-red_custom-light hover:bg-red_custom">Ajouter</button>
+                    <!----required---->
+                    <span class="text-gray-500 text-sm">*Champs requis</span>
+                </div>
 
-    @error('category')
-        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-    @enderror
-
-
-
-    <div class="text-center">
-        <button type="submit">Publier</button>
-
+            </form>
+            <!-- form - end -->
+        </div>
     </div>
-
-</form>
+@endsection
