@@ -31,8 +31,8 @@ class CategoryController extends Controller
     {
         $products = Product::all();
         $categoriesParent = Category::where('parent_id', null)->get();
-        $categoriesChild = Category::where('parent_id', !null)->get();
-
+        $categoriesChild = Category::where('parent_id', '!=', null)->get();
+        
         return view('categories.index', compact('categoriesParent', 'categoriesChild', 'products'));
     }
 
@@ -110,5 +110,19 @@ class CategoryController extends Controller
         $category->save();
 
         return redirect()->route('categories.index')->with('success', 'La catégorie a bien été modifiée');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Category $category)
+    {
+
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('success', 'La catégorie a bien été retirée');
     }
 }

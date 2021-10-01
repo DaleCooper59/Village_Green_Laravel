@@ -71,7 +71,7 @@ use Illuminate\Support\Str;
                         <x-small-card path="{{ route('categories.categoriesChild', $category->id) }}"
                             name='{{ $category->name }}' src="{{ $link }}">
                             <x-button-group-edit-delete path="{{ route('categories.edit', $category->id) }}"
-                                action="Éditer" route="{{ route('categories.destroy', $category->id) }}"
+                                action="Éditer" route="{{ route('categories.destroy', ['category' => $category->id]) }}"
                                 action2="Effacer" />
                         </x-small-card>
                     @endforeach

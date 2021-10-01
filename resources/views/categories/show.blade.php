@@ -10,13 +10,13 @@
                         <h1 class="text-6xl font-normal leading-normal mt-0 mb-2 text-gray-300">
                             {{ $category->name }}
                         </h1>
-
+                        
                     </div>
 
                     <a href="#"
-                        class="inline-block bg-white hover:bg-gray-100 active:bg-gray-200 focus-visible:ring ring-indigo-300 border text-gray-500 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-4 md:px-8 py-2 md:py-3">More</a>
+                        class="inline-block bg-white hover:bg-gray-100 active:bg-gray-200 focus-visible:ring ring-indigo-300 border text-gray-500 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-4 md:px-8 py-2 md:py-3">Plus</a>
                 </div>
-
+               
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6 xl:gap-8">
 
                     @if (count($products) !== 0 )

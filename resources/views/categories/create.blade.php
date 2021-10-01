@@ -17,7 +17,7 @@
                 <!----name---->
                 <div>
                     <label for="name" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Nom de la cétagorie*</label>
-                    <input name="name" id="name" type="text" value="{{ old('name') }}"
+                    <input name="name" id="name" type="text" value="{{ old('name') }}" required
                         placeholder="Violon"
                         class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
@@ -28,7 +28,7 @@
 
                 <!----parent_id---->
                 <div>
-                    <label for="parent_id" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Catégorie parente*</label>
+                    <label for="parent_id" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Catégorie parente</label>
                    
                         <select name="parent_id" id="parent_id" class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" >
                             <option value=""></option>

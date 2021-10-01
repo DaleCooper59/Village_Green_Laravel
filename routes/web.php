@@ -38,7 +38,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
   
     //Catégories
     Route::resource('categories', '\App\Http\Controllers\CategoryController');
-    Route::get('categories/categoriesPrincipal',  [CategoryController::class, 'categoriesPrincipal'])->name('categories.categoriesPrincipal');
+    Route::delete('categories/destroy/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::get('categories/categoriesChild/{category}',  [CategoryController::class, 'categoriesChild'])->name('categories.categoriesChild');
   
     
