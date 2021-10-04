@@ -43,6 +43,7 @@ class rolesPermissions extends Command
         $user = User::where('username',$this->argument('user'))->first();
        
         $role = Role::where('name', $this->option('role'))->first();
+        
         if ($role === null && $this->option('role')) {
             $role = Role::create([
                 'name' => $this->option('role'),
