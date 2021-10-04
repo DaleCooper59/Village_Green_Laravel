@@ -70,7 +70,7 @@ use Illuminate\Support\Str;
                         @endphp
                         <x-small-card path="{{ route('categories.categoriesChild', $category->id) }}"
                             name='{{ $category->name }}' src="{{ $link }}">
-                            <x-button-group-edit-delete path="{{ route('categories.edit', $category->id) }}"
+                            <x-button-group-edit-delete class="absolute right-0" path="{{ route('categories.edit', $category->id) }}"
                                 action="Éditer" route="{{ route('categories.destroy', ['category' => $category->id]) }}"
                                 action2="Effacer" />
                         </x-small-card>
@@ -104,7 +104,7 @@ use Illuminate\Support\Str;
                     @foreach ($categoriesChild as $category)
                         <x-small-card path="{{ route('categories.show', $category->id) }}" name='{{ $category->name }}'
                             src='https://source.unsplash.com/random'>
-                                <x-button-group-edit-delete path="{{ route('categories.edit', $category->id) }}"
+                                <x-button-group-edit-delete class="absolute right-0" path="{{ route('categories.edit', $category->id) }}"
                                     action="Éditer" route="{{ route('categories.destroy', $category->id) }}"
                                     action2="Effacer" />
                          
@@ -148,7 +148,7 @@ use Illuminate\Support\Str;
                                 $src = Storage::url($product->picture);
                             }
                         @endphp
-                        <x-small-card path="{{ route('products.show', $product->id) }}" name='{{ $product->label }}'
+                        <x-small-card class="absolue right-0" path="{{ route('products.show', $product->id) }}" name='{{ $product->label }}'
                             src="{{ $src }}" >
                             <x-button-group-edit-delete path="{{ route('products.edit', $product->id) }}"
                                 action="Éditer" route="{{ route('products.destroy', $product->id) }}"

@@ -44,6 +44,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     ////ADMIN//// 
     //Route::middleware('admin')->group(function () {
+        Route::resource('users', '\App\Http\Controllers\UserController');
+
+
         Route::get('products/create',  [ProductController::class, 'create'])->name('products.create');
         Route::post('products/store',  [ProductController::class, 'store'])->name('products.store');
         Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
