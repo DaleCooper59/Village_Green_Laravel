@@ -20,16 +20,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('test',  [Controller::class, 'test']);
 
 Route::middleware('guest')->group(function () {
+
     Route::get('/', function () {
         return view('auth/login');
     });
 });
 
+  //Acceuil
+    Route::get('/index',  [ProductController::class, 'index'])->name('index');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-    //Acceuil
-    Route::get('/index',  [ProductController::class, 'index'])->name('index');
+  
     
     //Dashboard
     Route::get('/dashboard', function () {
@@ -41,17 +43,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::delete('categories/destroy/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::get('categories/categoriesChild/{category}',  [CategoryController::class, 'categoriesChild'])->name('categories.categoriesChild');
   
-    
+    //Products
+    Route::get('products/create',  [ProductController::class, 'create'])->name('products.create');
+    Route::post('products/store',  [ProductController::class, 'store'])->name('products.store');
+    Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
+    Route::get('products/edit/{product}', [ProductController::class, 'edit'])->name('products.edit');
+    Route::patch('products/update/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('products/destroy/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+
     ////ADMIN//// 
-    //Route::middleware('admin')->group(function () {
+    Route::middleware('admin')->group(function () {
         Route::resource('users', '\App\Http\Controllers\UserController');
 
-
-        Route::get('products/create',  [ProductController::class, 'create'])->name('products.create');
-        Route::post('products/store',  [ProductController::class, 'store'])->name('products.store');
-        Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
-        Route::get('products/edit/{product}', [ProductController::class, 'edit'])->name('products.edit');
-        Route::patch('products/update/{product}', [ProductController::class, 'update'])->name('products.update');
-        Route::delete('products/destroy/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-   // });
+   });
 });

@@ -13,14 +13,15 @@ use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Tag;
 use App\Models\User;
-use DateTime;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class insertDatas extends Command
 {
+    use HasRoles;
     /**
      * The name and signature of the console command.
      *
@@ -52,11 +53,13 @@ class insertDatas extends Command
      */
     public function handle()
     {
+        
         $this->call('migrate:fresh');
+        $this->call('initRolesAndPermissions');
         /**
          * insertDatas
          */
-
+        
         User::create(
             [
                 'username' => 'Dale',
@@ -71,24 +74,44 @@ class insertDatas extends Command
                 'remember_token' => 'cnfebd51!e',
             ],
 
-        );
-
+        );  
+        
         User::create(
             [
-                'username' => 'robert',
-                'firstname' => 'rob',
-                'lastname' => 'rob',
-                'age' => 37,
+                'username' => 'Robert',
+                'firstname' => 'Rob',
+                'lastname' => 'BERT',
+                'age' => 38,
                 'birth' => now(),
                 'email' => 'rob@gmail.com',
-                'tel' => '0616478489',
+                'tel' => '0619415499',
                 'email_verified_at' => now(),
                 'password' => Hash::make('rrrrrrrr'), // password
+                'remember_token' => 'cnffdekhjghjyr1!e',
+            ],
+
+        );  
+        
+        
+
+        $user = User::create(
+            [
+                'username' => 'God',
+                'firstname' => 'admin1',
+                'lastname' => 'admin1',
+                'age' => 99,
+                'birth' => now(),
+                'email' => 'admin1@gmail.com',
+                'tel' => '0101010101',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'), // password
                 'remember_token' => 'dfudeuy!e',
             ],
 
         );
 
+        $user->assignRole('god');
+       
         User::factory()->count(3)->create();
         Country::factory()->count(3)->create();
         City::factory()->count(3)->create();
@@ -98,6 +121,12 @@ class insertDatas extends Command
         Employee::factory()->count(3)->create();
         Supplier::factory()->count(3)->create();
 
+        $users = User::doesntHave('roles')->get();
+        foreach($users as $user){
+            $user->assignRole('user');
+        }
+        
+      
         /**
          * insertCategories
          */

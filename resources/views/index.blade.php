@@ -74,9 +74,6 @@
             </div>
 
         </div>
-        @auth
-            <p>je suis connecté</p>
-
-        @endauth
+        
     </main>
 @endsection
