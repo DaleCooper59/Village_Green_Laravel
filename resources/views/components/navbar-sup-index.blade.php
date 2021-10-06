@@ -15,14 +15,14 @@
                  <x-button path="{{ route('customers.show', Auth::user()->id) }}" action='Espace Client'
                     class=" h-7 bg-red_custom hover:bg-white text-gray-800" />
                @elseif(Auth::user()->roles[0]['name'] === 'god' || Auth::user()->roles[0]['name'] === 'admin')
-               <form id="formCustomerControl">
+              {{-- <form id="formCustomerControl">
                     <select name="customersName" id="customersName">
                         @foreach ($customers as $customer)
                             <option value="{{$customer->id}}">{{$customer->name}}</option>
                         @endforeach
                     </select>
                     <button onclick="confirmDelete(id)" type="submit">Voir fiche client ?</button>
-               </form>
+               </form>--}}
               
                 @else
                  <span></span>
