@@ -4,17 +4,16 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class NavbarSupIndex extends Component
+class modal extends Component
 {
-    public $customers;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($customers)
+    public function __construct()
     {
-        $this->customers = $customers;
+        //
     }
 
     /**
@@ -24,6 +23,6 @@ class NavbarSupIndex extends Component
      */
     public function render()
     {
-        return view('components.navbar-sup-index');
+        return view('components.modal');
     }
 }

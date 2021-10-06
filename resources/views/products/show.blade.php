@@ -22,20 +22,21 @@
                     <h1 class="text-gray-800 text-2xl sm:text-3xl font-bold text-center md:text-left mb-4">
                         {{ $products->label }}</h1>
 
-                    <!------buttons------>
-                    <div class="flex ">
-                        <x-button path="{{ route('products.edit', $products->id) }} " action='Éditer'
-                            class="inline-block m-0 mb-1 font-medium bg-red_custom-light hover:bg-red_custom" />
-                        <form action="{{ route('products.destroy', $products->id) }}" method="post">
-                            @csrf
-                            @method('delete')
-                            <button type="submit"
-                                class="py-1 px-4 mr-3 rounded shadow cursor-pointer inline-block m-0 mb-1 font-medium bg-red_custom hover:bg-red_custom-dark text-gray-800">Effacer</button>
+                    @canany(['edit', 'delete'])
+                        <!------buttons------>
+                        <div class="flex ">
+                            <x-button path="{{ route('products.edit', $products->id) }} " action='Éditer'
+                                class="inline-block m-0 mb-1 font-medium bg-red_custom-light hover:bg-red_custom" />
+                            <form action="{{ route('products.destroy', $products->id) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit"
+                                    class="py-1 px-4 mr-3 rounded shadow cursor-pointer inline-block m-0 mb-1 font-medium bg-red_custom hover:bg-red_custom-dark text-gray-800">Effacer</button>
 
-                        </form>
+                            </form>
 
-                    </div>
-
+                        </div>
+                    @endcanany
 
                     <h3 class="text-gray-400 italic text-md text-center md:text-left mb-4 md:mb-6">{{ $products->color }}
                     </h3>

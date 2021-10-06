@@ -1,5 +1,6 @@
 @extends('layouts.app-index')
-
+        <x-navbar-sup-index :customers="$customers"/>
+        <x-navbar-index />
 @section('navbar')
 
     <div id="nav_categories"
@@ -76,4 +77,16 @@
         </div>
         
     </main>
+@endsection
+
+@section('js_footer')
+<script>
+    function confirmDelete(id){
+    let url = "{{ route('customers.show', ':id') }}";
+    id = document.getElementById('customersName').value;
+    url = url.replace(':id', id);
+    document.location.href=url;
+    }
+</script>
+
 @endsection

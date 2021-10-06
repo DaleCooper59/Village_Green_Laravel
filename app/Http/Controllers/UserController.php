@@ -31,7 +31,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
@@ -43,6 +43,20 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.index')->with('success', 'L\'utilisateur' . $user->username . 'a bien été modifié')->with('success', 'Le produit a bien été modifié');
+        return redirect()->route('users.index')->with('success', 'L\'utilisateur' . $user->username . 'a bien été modifié');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'Le compte de' . $user->username . 'a bien été supprimé');
     }
 }

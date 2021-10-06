@@ -70,6 +70,7 @@ use Illuminate\Support\Str;
                         @endphp
                         <x-small-card path="{{ route('categories.categoriesChild', $category->id) }}"
                             name='{{ $category->name }}' src="{{ $link }}">
+                            
                             <x-button-group-edit-delete class="absolute right-0" path="{{ route('categories.edit', $category->id) }}"
                                 action="Éditer" route="{{ route('categories.destroy', ['category' => $category->id]) }}"
                                 action2="Effacer" />
@@ -136,7 +137,7 @@ use Illuminate\Support\Str;
                         class="inline-block bg-white hover:bg-gray-100 active:bg-gray-200 focus-visible:ring ring-indigo-300 border text-gray-500 text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-4 md:px-8 py-2 md:py-3">More</a>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6 xl:gap-8">
+                <div class="relative grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6 xl:gap-8">
 
                     @foreach ($products as $product)
                         @php
@@ -148,9 +149,9 @@ use Illuminate\Support\Str;
                                 $src = Storage::url($product->picture);
                             }
                         @endphp
-                        <x-small-card class="absolue right-0" path="{{ route('products.show', $product->id) }}" name='{{ $product->label }}'
+                        <x-small-card  path="{{ route('products.show', $product->id) }}" name='{{ $product->label }}'
                             src="{{ $src }}" >
-                            <x-button-group-edit-delete path="{{ route('products.edit', $product->id) }}"
+                            <x-button-group-edit-delete class="absolute right-0" path="{{ route('products.edit', $product->id) }}"
                                 action="Éditer" route="{{ route('products.destroy', $product->id) }}"
                                 action2="Effacer" />
                         </x-small-card>

@@ -1,4 +1,5 @@
   <!------buttons------>
+  @canany(['edit','delete'])
   <div {{$attributes->merge(['class' => "flex top-2"])}}>
     <a href="{{$path}}" type="submit" class="h-8 font-semibold py-1 px-2 mr-1 rounded shadow cursor-pointer inline-block m-0 mb-1 bg-red_custom-light hover:bg-red_custom" >{{$action}}</a>
     <form {{$route}} method="post">
@@ -10,3 +11,4 @@
     </form>
 
   </div>
+  @endcanany

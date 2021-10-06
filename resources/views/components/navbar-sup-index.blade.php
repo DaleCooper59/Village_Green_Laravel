@@ -8,11 +8,28 @@
                 <x-button path="{{ url('/dashboard') }}" action='Dashboard'
                     class=" h-7 hover:bg-gray-400 text-gray-800 " />
             </li>
-            <li>
-                <x-button path="{{ url('/dashboard') }}" action='Espace Client'
+          
+           <li><!----------------------MODAL---------------------->
+               <x-modal/>
+               @if(count(Auth::user()->customers))
+                 <x-button path="{{ route('customers.show', Auth::user()->id) }}" action='Espace Client'
                     class=" h-7 bg-red_custom hover:bg-white text-gray-800" />
+               @elseif(Auth::user()->roles[0]['name'] === 'god' || Auth::user()->roles[0]['name'] === 'admin')
+               <form id="formCustomerControl">
+                    <select name="customersName" id="customersName">
+                        @foreach ($customers as $customer)
+                            <option value="{{$customer->id}}">{{$customer->name}}</option>
+                        @endforeach
+                    </select>
+                    <button onclick="confirmDelete(id)" type="submit">Voir fiche client ?</button>
+               </form>
+              
+                @else
+                 <span></span>
+                @endif
+                   
             </li>
-        @else
+             @else      
             <li>
                 <x-button path="{{ route('login') }}" action='Se connecter'
                     class=" h-7 bg-green-200 hover:bg-gray-400 text-gray-800" />

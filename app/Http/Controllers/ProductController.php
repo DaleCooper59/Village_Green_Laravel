@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,8 @@ class ProductController extends Controller
     {
 
         $categoriesParent =  Category::whereNull('parent_id')->with('children')->get();
-
-        return view('index', compact('products', 'categories', 'categoriesParent'));
+        $customers = Customer::all();
+        return view('index', compact('products', 'categories', 'categoriesParent', 'customers'));
     }
 
 
