@@ -28,6 +28,8 @@
 
         <x-navbar-sup-index />
         <x-navbar-index />
+        
+
         @yield('navbar')
 
         @include('layouts/flashMessage')

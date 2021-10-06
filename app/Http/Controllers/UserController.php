@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -23,8 +25,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('users.edit', compact('user', 'roles', 'permissions'));
     }
 
     /**
@@ -39,8 +42,18 @@ class UserController extends Controller
 
         $user = user::find($user)->first();
 
-        $user->update($request->all());
+        $request->validate([
+            'username' => 'unique:users',
+        ]);
 
+        $user->update([
+            'username' => $request->username,
+        ]);
+        
+        $user->syncRoles($request->role);
+        $user->syncPermissions($request->permission);
+
+       
         $user->save();
 
         return redirect()->route('users.index')->with('success', 'L\'utilisateur' . $user->username . 'a bien été modifié');

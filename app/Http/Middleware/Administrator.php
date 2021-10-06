@@ -22,15 +22,18 @@ class Administrator
     public function handle(Request $request, Closure $next)
     {
         $all_roles_except_tab = Role::whereNotIn('name', ['god', 'admin'])->get();
-        $userRole = Auth::user()->roles[0]['name'];
-        foreach ($all_roles_except_tab as $role) {
+        if (count(Auth::user()->roles)) {
+            $userRole = Auth::user()->roles[0]['name'];
 
-            if ($userRole != $role->name) {
-                
-                return $next($request);
-            } 
-              abort(403, 'vous n\'etes pas administrateur');  
-            
+            foreach ($all_roles_except_tab as $role) {
+
+                if ($userRole != $role->name) {
+
+                    return $next($request);
+                }
+                abort(403, 'vous n\'etes pas administrateur');
+            }
         }
+        abort(403, 'vous n\'etes pas administrateur');
     }
 }

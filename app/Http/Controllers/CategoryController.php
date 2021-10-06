@@ -23,8 +23,9 @@ class CategoryController extends Controller
     {
 
         $categories = $category->where('parent_id', $category->id)->get();
+        $categoriesParent = Category::where('parent_id', null)->get();
 
-        return view('categories.categoriesChild', compact('categories'));
+        return view('categories.categoriesChild', compact('categories', 'categoriesParent'));
     }
 
     public function index()
@@ -75,8 +76,9 @@ class CategoryController extends Controller
     {
 
         $products =  $category->products()->get();
+        $categoriesParent = Category::where('parent_id', null)->get();
 
-        return view('categories.show', compact('category', 'products'));
+        return view('categories.show', compact('category', 'products', 'categoriesParent'));
     }
 
     

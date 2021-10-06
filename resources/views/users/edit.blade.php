@@ -14,7 +14,7 @@
                 @method('PATCH')
 
                 <!----Username---->
-                <div>
+                <div class="col-span-2">
                     <label for="username" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Pseudo</label>
                     <input name="username" id="username" type="text" value="{{ $user->username }}"
                         placeholder="{{-- $user->username --}}"
@@ -25,104 +25,59 @@
                     @enderror
                 </div>
 
-                <!----firstname---->
-                <div>
-                    <label for="firstname" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Prénom</label>
-                    <input name="firstname" id="firstname" type="text" value="{{ $user->firstname }}"
-                        placeholder="{{-- $user->firstname --}}"
-                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
-
-                    @error('firstname')
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!----lastname---->
-                <div class="block">
-                    <label for="lastname" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Nom</label>
-                    <input name="lastname" id="lastname" type="text" value="{{ $user->lastname }}"
-                        placeholder="{{-- $user->lastname --}}"
-                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
-
-                    @error('lastname')
-                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <!----role---->
                 <div class="block">
                     <span class="text-gray-700">Roles</span>
                     <div class="mt-2">
-                        {{-- @foreach ($user->roles as $role) --}}
+                        
+                        @foreach ($roles as $role) 
+                        
                         <div>
-                            <label for="role{{-- role->id --}}"
+                            <label for="role{{$role->id}}"
                                 class="inline-flex text-gray-800 text-sm sm:text-base mb-2">
-                                <input type="checkbox" name="role{{-- role->id --}}" id="role" class="form-checkbox"
-                                    checked>
-                                <span class="ml-2">{{-- $user->role --}}opt1</span>
+                                <input type="checkbox" name="role[]" id="{{$role->name}}" class="form-checkbox" value="{{$role->name}}"
+                                {{--check if user got this role--}}
+                                @foreach ($user->roles as $userRole)
+                                     {{$role->name === $userRole->name ? 'checked' : '' }}
+                                @endforeach>
+
+                                <span class="ml-2">{{$role->name}}</span>
                             </label>
-                            @error('role')
-                                <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                            @enderror
-                            <label for="role{{-- role->id --}}"
-                                class="inline-flex text-gray-800 text-sm sm:text-base mb-2">
-                                <input type="checkbox" name="role{{-- role->id --}}" id="role" class="form-checkbox"
-                                    checked>
-                                <span class="ml-2">{{-- $user->role --}}opt2</span>
-                            </label>
-                            @error('role')
-                                <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                            @enderror
-                            <label for="role{{-- role->id --}}"
-                                class="inline-flex text-gray-800 text-sm sm:text-base mb-2">
-                                <input type="checkbox" name="role{{-- role->id --}}" id="role" class="form-checkbox"
-                                    checked>
-                                <span class="ml-2">{{-- $user->role --}}opt3</span>
-                            </label>
-                            @error('role')
-                                <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                            @enderror
-                            <label for="role{{-- role->id --}}"
-                                class="inline-flex text-gray-800 text-sm sm:text-base mb-2">
-                                <input type="checkbox" name="role{{-- role->id --}}" id="role" class="form-checkbox"
-                                    checked>
-                                <span class="ml-2">{{-- $user->role --}}opt4</span>
-                            </label>
-                            @error('role')
+                            @error('role{{$role->id}}')
                                 <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- @endforeach --}}
+                        @endforeach
+
+                       
                     </div>
                 </div>
                 
-                <!----permission---->
-                <div class="block">
+                 <!----permission---->
+                 <div class="block">
                     <span class="text-gray-700">Permissions</span>
                     <div class="mt-2">
-                        {{-- @foreach ($user->permissions as $permission) --}}
+                        
+                        @foreach ($permissions as $permission) 
+                        
                         <div>
-                            <label for="permission{{-- permission->id --}}"
+                            <label for="permission{{$permission->id}}"
                                 class="inline-flex text-gray-800 text-sm sm:text-base mb-2">
-                                <input type="checkbox" name="permission{{-- permission->id --}}" id="permission" class="form-checkbox"
-                                    checked>
-                                <span class="ml-2">{{-- $user->permission --}}opt1</span>
-                            </label>
-                            @error('permission')
-                                <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                            @enderror
+                                <input type="checkbox" name="permission[]" id="{{$permission->name}}" class="form-checkbox" value="{{$permission->name}}"
+                                {{--check if user got this permission--}}
+                                @foreach ($user->getAllPermissions() as $userPermission)
+                                     {{$permission->name === $userPermission->name ? 'checked' : '' }}
+                                @endforeach>
 
-                            <label for="permission{{-- permission->id --}}"
-                                class="inline-flex text-gray-800 text-sm sm:text-base mb-2">
-                                <input type="checkbox" name="permission{{-- permission->id --}}" id="permission" class="form-checkbox"
-                                    checked>
-                                <span class="ml-2">{{-- $user->permission --}}opt2</span>
+                                <span class="ml-2">{{$permission->name}}</span>
                             </label>
-                            @error('permission')
+                            @error('permission{{$permission->id}}')
                                 <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- @endforeach --}}
+                        @endforeach
+
+                       
                     </div>
                 </div>
 

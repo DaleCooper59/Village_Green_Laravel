@@ -139,13 +139,6 @@ class ProductController extends Controller
             //for update in table
             $product->update(['picture' => $filename]);
 
-            $product->update($request->input());
-
-            $product->categories()->sync($request->category);
-
-            $product->save();
-
-            return redirect()->route('products.show', $product->id)->with('success', 'Le produit' . $product->label . 'a bien été modifié');
         }*/
         $product->update($request->input());
 
