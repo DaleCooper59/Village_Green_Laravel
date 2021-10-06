@@ -1,6 +1,5 @@
 @extends('layouts.app-index')
-        <x-navbar-sup-index :customers="$customers"/>
-        <x-navbar-index />
+       
 @section('navbar')
 
     <div id="nav_categories"

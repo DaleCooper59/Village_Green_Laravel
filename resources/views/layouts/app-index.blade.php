@@ -26,7 +26,8 @@
 <body class="antialiased">
     <div id="content_page" class="w-full lg:w-3/4 mx-auto">
 
-        
+        <x-navbar-sup-index />
+        <x-navbar-index />
         @yield('navbar')
 
         @include('layouts/flashMessage')

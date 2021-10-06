@@ -6,15 +6,15 @@ use Illuminate\View\Component;
 
 class NavbarSupIndex extends Component
 {
-    public $customers;
+    
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($customers)
+    public function __construct()
     {
-        $this->customers = $customers;
+       // 
     }
 
     /**

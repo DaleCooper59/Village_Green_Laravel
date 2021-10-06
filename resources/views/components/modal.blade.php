@@ -1,6 +1,6 @@
-<div style="z-index: 1000" class="block hidden left-0 w-full flex  max-w-2xl p-5 mx-auto my-auto rounded-xl shadow-lg  bg-gray-200 ">
+<div style="z-index: 1000" class="hidden absolute left-0 w-full  max-w-2xl p-5 mx-auto my-auto rounded-xl shadow-lg  bg-gray-200 ">
 
-    <div class="flex flex-col flex-1 text-center p-5 flex justify-between border-gray-300 border-r-2">
+    <div class="flex flex-col flex-1 text-center p-5 justify-between border-gray-300 border-r-2">
 
 
         <h3 class="text-xl font-semi-bold py-4 justify-self-start">Êtes vous déjà client chez nous ?</h3>
