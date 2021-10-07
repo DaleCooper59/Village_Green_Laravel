@@ -3,17 +3,24 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Panneau d\'administration') }}
         </h2>
+        <div class="flex mt-3">
+            <x-button path="{{ route('products.create') }}" action='Ajouter un produit'
+            class="bg-gray-200 w-auto inline-block hover:bg-gray-400 text-gray-800 border-gray-400">
+            <x-slot name="icon"> <i class="fas fa-home"></i>
+            </x-slot>
+        </x-button>
+        <x-button path="{{ route('categories.create') }}" action='Ajouter une catégorie'
+            class="bg-gray-200 w-auto inline-block hover:bg-gray-400 text-gray-800 border-gray-400" />
+        </div>
+        
     </x-slot>
 
     <h3 class="text-md font italic text-gray-400">*En fonction de vos paramètres vous pourrez accomplir les actions
         autorisées, demandez à l'administrateur pour plus de fonctionnalités</h3>
 
-    <x-button path="{{ route('index') }}" action='Village Green'
-        class="bg-white hover:bg-gray-400 text-gray-800 border-gray-400" />
-    <x-button path="{{ route('products.create') }}" action='Ajouter un produit'
-        class="bg-white hover:bg-gray-400 text-gray-800 border-gray-400" />
-    <x-button path="{{ route('categories.create') }}" action='Ajouter une catégorie'
-        class="bg-white hover:bg-gray-400 text-gray-800 border-gray-400" />
+
+    <x-stat-card />
+
 
     <!------dropdown----->
     <!------first-drop----->
@@ -126,8 +133,7 @@
                                                     class="text-xs truncate w-full normal-case font-normal -mt-1 text-gray-500">
                                                     description de la permission ...</div>
                                                 <div class="flex ">
-                                                    <x-button
-                                                        path="{{ route('permissions.edit', $permission->id) }} "
+                                                    <x-button path="{{ route('permissions.edit', $permission->id) }} "
                                                         action='Éditer'
                                                         class="inline-block m-0 mb-1 font-medium bg-red_custom-light hover:bg-red_custom" />
                                                     <form

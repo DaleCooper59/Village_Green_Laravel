@@ -1,5 +1,5 @@
 <div id="nav_categories"
-        class="relative flex items-center justify-end w-full h-20 my-0 bg-gray-700 text-white font-semibold text-sm sm:pt-0">
+        class="relative flex items-center justify-end mx-auto w-full h-20 my-0 bg-gray-700 text-white font-semibold text-sm sm:pt-0">
 
 
         @foreach ($categoriesParent as $category)

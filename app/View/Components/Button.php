@@ -10,17 +10,19 @@ class Button extends Component
     public $path;
     public $svg;
     public $p;
+    public $icon;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($action, $path, $svg ='', $p ='')
+    public function __construct($action, $path, $svg ='', $p ='', $icon='')
     {
         $this->action = $action;
         $this->path = $path;
         $this->svg = $svg;
         $this->p = $p;
+        $this->icon = $icon;
     }
 
     /**

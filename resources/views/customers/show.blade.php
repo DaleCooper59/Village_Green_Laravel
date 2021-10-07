@@ -239,7 +239,7 @@
 
                         <!------dropdown----->
                         <!------first-drop----->
-                        <div class="">
+                        <div class="mt-12">
 
                             <div class=" bg-white w-full mx-auto
                             border-gray-200" x-data="{selected:null}">
@@ -249,8 +249,8 @@
                                 <button type="button" class="w-full px-8 py-6 text-left"
                                     @click="selected !== 1 ? selected = 1 : selected = null">
                                     <div class="flex items-center justify-between">
-                                        <span>
-                                            Plus d'informations Informations </span>
+                                        <h3 class="font-bold">
+                                            Plus d'informations Informations </h3>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                             fill="currentColor">
                                             <path fill-rule="evenodd"
@@ -285,8 +285,8 @@
                                 <button type="button" class="w-full px-8 py-6 text-left"
                                     @click="selected !== 1 ? selected = 1 : selected = null">
                                     <div class="flex items-center justify-between">
-                                        <span>
-                                            Commandes</span>
+                                        <h3 class="font-bold">
+                                            Commandes</h3>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                             fill="currentColor">
                                             <path fill-rule="evenodd"

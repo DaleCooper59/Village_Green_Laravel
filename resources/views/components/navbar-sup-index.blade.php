@@ -39,8 +39,18 @@
                     </li>
                 @endif
             @endauth
-            <a href="#" class="font-semibold py-1 px-4 mr-3"><img src="{{ asset('img/picto_panier.png') }}"
+            <div class="relative" x-data="{ open: false }">
+                 <a @click="open = true" href="#" class="font-semibold py-1 px-4 mr-3"><img src="{{ asset('img/picto_panier.png') }}"
                     alt="panier"></a>
+                    <x-basket-cart>
+                        <x-slot name='products'>
+                            @foreach ($products as $item)
+                                <span>{{$item->label}}</span>
+                            @endforeach
+                        </x-slot>
+                    </x-basket-cart>
+            </div>
+           
             <a href="{{ route('login') }}" class="font-semibold py-1 px-4 mr-3"><img
                     src="{{ asset('img/picto_pays.png') }}" alt="panier"></a>
 

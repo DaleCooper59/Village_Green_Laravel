@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="flex flex-col">
-        <div class="overflow-x-auto ">
+        <div class="overflow-x-auto container mx-auto">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">

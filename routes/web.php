@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AppIndexController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomerController;
@@ -29,7 +28,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/', function () {
         return view('auth/login');
     });
-    
 });
 
 //Acceuil
@@ -37,21 +35,28 @@ Route::get('/index',  [ProductController::class, 'index'])->name('index');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-    //Dashboard
+    //dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-    //Catégories
+    //catégories
     //Route::resource('categories', '\App\Http\Controllers\CategoryController');
-    Route::get('categories',  [CategoryController::class, 'index'])->name('categories.index'); 
+    Route::get('categories',  [CategoryController::class, 'index'])->name('categories.index');
     Route::get('categories/show/{category}',  [CategoryController::class, 'show'])->name('categories.show');
     Route::get('categories/categoriesChild/{category}',  [CategoryController::class, 'categoriesChild'])->name('categories.categoriesChild');
-  
-    //Products
-    Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
-   
+ 
     //customers
     Route::get('customers/show/{customer}',  [CustomerController::class, 'show'])->name('customers.show');
-   
+
+    //products
+    Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
+
+    //products-supplier
+    Route::group(['middleware' => ['supplier']], function () {
+        Route::post('products/store',  [ProductController::class, 'store'])->name('products.store');
+        Route::get('products/edit/{product}', [ProductController::class, 'edit'])->name('products.edit');
+        Route::patch('products/update/{product}', [ProductController::class, 'update'])->name('products.update');
+        Route::any('products/destroy/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    });
 
     ////ADMIN//// 
     Route::middleware('admin')->group(function () {
@@ -63,23 +68,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::patch('roles/update/{role}', [RoleController::class, 'update'])->name('roles.update');
         Route::any('roles/destroy/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
-        //Role
+        //Permission
         Route::get('permissions/edit/{permission}', [PermissionController::class, 'edit'])->name('permissions.edit');
         Route::patch('permissions/update/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
         Route::any('permissions/destroy/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
 
-        //products
+        //products-admin
         Route::get('products/create',  [ProductController::class, 'create'])->name('products.create');
-        Route::post('products/store',  [ProductController::class, 'store'])->name('products.store'); 
-        Route::get('products/edit/{product}', [ProductController::class, 'edit'])->name('products.edit');
-        Route::patch('products/update/{product}', [ProductController::class, 'update'])->name('products.update');
-        Route::any('products/destroy/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
-
+        
         //categories
         Route::get('categories/create',  [CategoryController::class, 'create'])->name('categories.create');
-        Route::post('categories/store',  [CategoryController::class, 'store'])->name('categories.store'); 
+        Route::post('categories/store',  [CategoryController::class, 'store'])->name('categories.store');
         Route::get('categories/edit/{category}', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::patch('categories/update/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::any('categories/destroy/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-   });
+    });
 });
