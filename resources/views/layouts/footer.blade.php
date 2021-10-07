@@ -1,4 +1,4 @@
-<footer class="w-full lg:w-3/4 mx-auto flex flex-col h-auto text-gray-400 bg-gradient-to-r from-gray-600 to-gray-700">
+<footer class="w-full mt-36 lg:w-3/4 mx-auto flex flex-col h-auto text-gray-400 bg-gradient-to-r from-gray-600 to-gray-700">
 
     <div class="footer_top w-full h-full grid justify-items-center grid-col-1 md:grid-cols-5 gap-4">
         <div class="col-span-2">

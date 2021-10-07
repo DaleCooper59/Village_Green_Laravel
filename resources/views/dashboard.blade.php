@@ -5,8 +5,9 @@
         </h2>
     </x-slot>
 
-    <h3 class="text-md font italic text-gray-400">*En fonction de vos paramètres vous pourrez accomplir les actions autorisées, demandez à l'administrateur pour plus de fonctionnalités</h3>
-    
+    <h3 class="text-md font italic text-gray-400">*En fonction de vos paramètres vous pourrez accomplir les actions
+        autorisées, demandez à l'administrateur pour plus de fonctionnalités</h3>
+
     <x-button path="{{ route('index') }}" action='Village Green'
         class="bg-white hover:bg-gray-400 text-gray-800 border-gray-400" />
     <x-button path="{{ route('products.create') }}" action='Ajouter un produit'
@@ -14,7 +15,8 @@
     <x-button path="{{ route('categories.create') }}" action='Ajouter une catégorie'
         class="bg-white hover:bg-gray-400 text-gray-800 border-gray-400" />
 
-
+    <!------dropdown----->
+    <!------first-drop----->
     <div class="bg-gray-100 h-screen w-auto flex justify-center mt-10">
         <div class="">
 
@@ -83,12 +85,8 @@
                 </div>
 
             </div>
-
-
-
-
         </div>
-
+        <!------second-drop----->
 
         <div class="bg-white max-w-xl mx-auto border border-gray-200" x-data="{selected:null}">
 
@@ -156,16 +154,12 @@
 
             </div>
 
-
-
-
         </div>
     </div>
 
+    <!------end-dropdown----->
 
 
 
-
-    </div>
 
 </x-app-layout>

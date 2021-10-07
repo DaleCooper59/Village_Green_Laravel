@@ -25,7 +25,7 @@ class City extends Model
     /**
      * Get all of the Countries for the city.
      */
-    public function countries()
+    public function country()
     {
         return $this->belongsTo(Country::class, 'country_id');
     }

@@ -17,7 +17,7 @@ class Employee extends Model
     /**
      * Get the userData for the employee.
      */
-    public function userData()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

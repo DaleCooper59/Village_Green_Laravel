@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppIndexController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomerController;
@@ -38,7 +39,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     //Dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
-  
+
     //Catégories
     //Route::resource('categories', '\App\Http\Controllers\CategoryController');
     Route::get('categories',  [CategoryController::class, 'index'])->name('categories.index'); 

@@ -73,6 +73,13 @@
             <x-jet-input-error for="lastname" class="mt-2" />
         </div>
 
+        <!-- Gender -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="gender" value="{{ __('Genre') }}" />
+            <x-jet-input id="gender" type="text" class="mt-1 block w-full" wire:model.defer="state.gender" autocomplete="gender" />
+            <x-jet-input-error for="gender" class="mt-2" />
+        </div>
+
         <!-- Age -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="age" value="{{ __('Age') }}" />

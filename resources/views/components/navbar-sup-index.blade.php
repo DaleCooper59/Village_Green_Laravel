@@ -14,7 +14,7 @@
                     <!----------------------MODAL---------------------->
                     <div class="relative">
                         @if (count(Auth::user()->customers))
-                            <x-button path="{{ route('customers.show', Auth::user()->id) }}" action='Espace Client'
+                            <x-button path="{{ route('customers.show', Auth::user()->customers[0]['id']) }}" action='Espace Client'
                                 class=" h-7 bg-red_custom hover:bg-white text-gray-800" />
                             <x-modal />
                         @else

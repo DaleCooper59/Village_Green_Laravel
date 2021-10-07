@@ -46,8 +46,16 @@
 
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
+                                       @if (count($user->customers))
+                                           <a href="{{route('customers.show', $user->customers[0]['id'])}}" title="Voir la fiche client"> 
+                                            <div class="text-sm text-gray-900">Id : {{ $user->id }}</div>
+                                        <div class="text-sm text-gray-500">Pseudo : {{ $user->username }}</div>
+                                        </a>
+                                        @else
                                         <div class="text-sm text-gray-900">Id : {{ $user->id }}</div>
                                         <div class="text-sm text-gray-500">Pseudo : {{ $user->username }}</div>
+                                       @endif 
+                                       
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">

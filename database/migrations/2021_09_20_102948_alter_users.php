@@ -20,11 +20,12 @@ class AlterUsers extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('username')->after('id');
             $table->string('lastname')->after('firstname');
+            $table->string('gender')->after('lastname');
             $table->softDeletes();
         });
 
         Schema::table('users', function (Blueprint $table) {
-             $table->unsignedInteger('age')->after('lastname');
+             $table->unsignedInteger('age')->after('gender');
         });
 
         Schema::table('users', function (Blueprint $table) {

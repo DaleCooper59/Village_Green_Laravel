@@ -17,7 +17,7 @@ class Customer extends Model
     /**
      * Get the userData for the customer.
      */
-    public function userData()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

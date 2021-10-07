@@ -42,10 +42,12 @@ class UserController extends Controller
 
         $user = user::find($user)->first();
 
-        $request->validate([
+        if (isset($request->username) && $request->username != $user->username) {
+             $request->validate([
             'username' => 'unique:users',
         ]);
-
+        }
+       
         $user->update([
             'username' => $request->username,
         ]);

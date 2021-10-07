@@ -1,5 +1,9 @@
 @extends('layouts.app-index')
 
+@section('navbar')
+    <x-navbar-sub  :categoriesParent="$categoriesParent"/>
+@endsection
+
 @section('content')
     <div class="bg-white mt-10 py-10 sm:py-16 lg:py-24">
         <div class="max-w-screen-xl px-4 md:px-8 mx-auto">

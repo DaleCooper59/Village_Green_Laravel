@@ -29,8 +29,9 @@ class ProductController extends Controller
 
         $categories = Category::all();
         $categoriesChild = $categories->where('parent_id', !null);
+        $categoriesParent = Category::where('parent_id', null)->get();
 
-        return view('products.create', compact('categories', 'categoriesChild'));
+        return view('products.create', compact('categories', 'categoriesChild', 'categoriesParent'));
     }
 
     /**
@@ -93,7 +94,8 @@ class ProductController extends Controller
      */
     public function show(Product $products)
     {
-        return view('products.show', compact('products'));
+        $categoriesParent = Category::where('parent_id', null)->get();
+        return view('products.show', compact('products', 'categoriesParent'));
     }
 
     /**
@@ -106,7 +108,8 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $categoriesChild = $categories->where('parent_id', !null);
-        return view('products.edit', compact('product', 'categories', 'categoriesChild'));
+        $categoriesParent = Category::where('parent_id', null)->get();
+        return view('products.edit', compact('product', 'categories', 'categoriesChild', 'categoriesParent'));
     }
 
     /**
