@@ -4,11 +4,12 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-jet-application-mark class="block h-9 w-auto" />
-                    </a>
-                </div>
+                <div class="block  z-40 pl-8 lg:pl-0 p-2">
+                    <a href="{{ route('index') }}"><img width="80" height="80" id="logo" class="xl:block hidden" src="{{ asset('img/logo_village_green.png') }}" alt="Logo"></a> 
+                     <a class="xl:hidden block ml-3 text-md italic font-bold no-underline" href="{{ route('index') }}">
+                     Village Green
+                     </a>
+                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
@@ -95,10 +96,10 @@
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <button
+                                <button title="Profil"
                                     class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
                                     <img class="h-8 w-8 rounded-full object-cover"
-                                        src="{{ Auth::user()->profile_photo_url }}"
+                                        src="{{ Storage::url(Auth::user()->profile_photo_path) }}"
                                         alt="{{ Auth::user()->username }}" />
                                 </button>
                             @else

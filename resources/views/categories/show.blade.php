@@ -26,7 +26,11 @@
                     @if (count($products) !== 0 )
                         @foreach ($products as $product)
                             <x-small-card path="{{ route('products.show', $product->id) }}" name='{{ $product->label }}'
-                                src='https://source.unsplash.com/random' />
+                                src='https://source.unsplash.com/random'>
+                                <x-button-group-edit-delete class="absolute right-0" path="{{ route('categories.edit', $category->id) }}"
+                                    action="Éditer" route="{{ route('categories.destroy', ['category' => $category->id]) }}"
+                                    action2="Effacer" />
+                            </x-small-card>
                         @endforeach
 
                     @else

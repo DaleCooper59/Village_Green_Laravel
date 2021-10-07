@@ -140,6 +140,11 @@ class ProductController extends Controller
             $product->update(['picture' => $filename]);
 
         }*/
+
+        /*
+        if (isset($input['photo'])) {
+            $user->updateProfilePhoto($input['photo']);
+        }*/
         $product->update($request->input());
 
         $product->categories()->sync($request->category);

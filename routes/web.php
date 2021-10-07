@@ -3,7 +3,10 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,20 +28,16 @@ Route::middleware('guest')->group(function () {
     Route::get('/', function () {
         return view('auth/login');
     });
-    Route::get('registration', function () {
-        return view('auth/register')->name('auth.registration');
-    });
+    
 });
 
-  //Acceuil
-    Route::get('/index',  [ProductController::class, 'index'])->name('index');
+//Acceuil
+Route::get('/index',  [ProductController::class, 'index'])->name('index');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     //Dashboard
-    Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
   
     //Catégories
     //Route::resource('categories', '\App\Http\Controllers\CategoryController');
@@ -58,18 +57,28 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         //users
         Route::resource('users', '\App\Http\Controllers\UserController');
 
+        //Role
+        Route::get('roles/edit/{role}', [RoleController::class, 'edit'])->name('roles.edit');
+        Route::patch('roles/update/{role}', [RoleController::class, 'update'])->name('roles.update');
+        Route::any('roles/destroy/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+        //Role
+        Route::get('permissions/edit/{permission}', [PermissionController::class, 'edit'])->name('permissions.edit');
+        Route::patch('permissions/update/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
+        Route::any('permissions/destroy/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+
         //products
         Route::get('products/create',  [ProductController::class, 'create'])->name('products.create');
         Route::post('products/store',  [ProductController::class, 'store'])->name('products.store'); 
         Route::get('products/edit/{product}', [ProductController::class, 'edit'])->name('products.edit');
         Route::patch('products/update/{product}', [ProductController::class, 'update'])->name('products.update');
-        Route::delete('products/destroy/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+        Route::any('products/destroy/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
         //categories
         Route::get('categories/create',  [CategoryController::class, 'create'])->name('categories.create');
         Route::post('categories/store',  [CategoryController::class, 'store'])->name('categories.store'); 
         Route::get('categories/edit/{category}', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::patch('categories/update/{category}', [CategoryController::class, 'update'])->name('categories.update');
-        Route::delete('categories/destroy/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+        Route::any('categories/destroy/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
    });
 });

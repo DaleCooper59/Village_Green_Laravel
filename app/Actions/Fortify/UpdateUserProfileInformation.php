@@ -19,7 +19,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update($user, array $input)
     {
         Validator::make($input, [
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'age' => ['required','integer', 'max:200'],
@@ -31,6 +30,12 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
+        }
+
+        if (isset($input['username']) && $input['username'] != $user->username) {
+            Validator::make($input, [
+                'username' => ['required', 'string', 'max:255', 'unique:users'],
+            ])->validateWithBag('updateProfileInformation');
         }
 
         if (

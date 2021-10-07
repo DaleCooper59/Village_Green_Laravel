@@ -23,7 +23,7 @@
 
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider flex flex-col">
-                                    Type 
+                                    Type
                                     <span class="text-xs italic lowercase">*ni vendeur ni client</span>
                                 </th>
                                 <th scope="col"
@@ -52,8 +52,16 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-full"
-                                                    src="https://i.pravatar.cc/150?u=fake@pravatar.com" alt="">
+                                                @if ($user->profile_photo_path === null)
+                                                    <img class="h-10 w-10 rounded-full"
+                                                        src="https://i.pravatar.cc/100?u={{ $user->id }}" alt="">
+                                                @else
+                                                    <img class="h-10 w-10 rounded-full"
+                                                        src="{{ Storage::url($user->profile_photo_path) }}"
+                                                        alt="">
+
+                                                @endif
+
                                             </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">
@@ -68,9 +76,12 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
 
                                         @if (count($user->customers))
-                                            <div class="text-sm text-gray-900">n° de client: {{  ' ' . $user->customers[0]['id'] . ', ' . ucFirst($user->customers[0]['type'])  }}</div>
+                                            <div class="text-sm text-gray-900">n° de client:
+                                                {{ ' ' . $user->customers[0]['id'] . ', ' . ucFirst($user->customers[0]['type']) }}
+                                            </div>
                                         @elseif(count($user->employees))
-                                            <div class="text-sm text-gray-900">n° d'employé: {{ ' ' .$user->employees[0]['id'] . ', Vendeur ' . ucFirst($user->employees[0]['department'])  }}
+                                            <div class="text-sm text-gray-900">n° d'employé:
+                                                {{ ' ' . $user->employees[0]['id'] . ', Vendeur ' . ucFirst($user->employees[0]['department']) }}
                                             </div>
                                         @else
                                             <div class="text-sm text-gray-900">Autre*</div>
@@ -78,25 +89,26 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @foreach ($user->roles as $role)
-                                             <a href="#"
-                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            {{$role->name}}
-                                          </a>
+                                            <a href="#"
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                {{ $role->name }}
+                                            </a>
                                         @endforeach
-                                       
+
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         @foreach ($user->getAllPermissions() as $permission)
-                                        <a href="#"
-                                       class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                       {{$permission->name}}
-                                     </a>
-                                   @endforeach
-                                       
+                                            <a href="#"
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                {{ $permission->name }}
+                                            </a>
+                                        @endforeach
+
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <x-button-group-edit-delete path="{{ route('users.edit', $user->id) }}"
-                                            action="Éditer" route="{{ route('users.destroy', ['user' => $user->id]) }}"
+                                            action="Éditer"
+                                            route="{{ route('users.destroy', ['user' => $user->id]) }}"
                                             action2="Effacer" />
                                     </td>
                                 </tr>
