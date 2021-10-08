@@ -27,11 +27,12 @@ class CustomerFactory extends Factory
         $address = Address::all()->pluck('id')->toArray();
         $type = ['professionnel','particulier'];
         $choice = $this->faker->randomElement($type);
+        $coef = $choice === 'professionnel' ? 2.2 : 5.6;
         return [
             'user_id' => $this->faker->unique(true)->numberBetween(1,count($user)),
             'address_id' => $this->faker->numberBetween(1,count($address)),
             'type' => $choice,
-            'coefficient' => $choice === 'professionnel' ? 2.2 : 5.6,
+            'coefficient' => $coef,
         ];
     }
 }

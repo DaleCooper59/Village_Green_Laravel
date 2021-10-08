@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomerController;
@@ -38,6 +39,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     //dashboard
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
+    //basket
+    Route::resource('basket', '\App\Http\Controllers\BasketController')->only(['index','store']);
+
     //catégories
     //Route::resource('categories', '\App\Http\Controllers\CategoryController');
     Route::get('categories',  [CategoryController::class, 'index'])->name('categories.index');
@@ -48,6 +52,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('customers/show/{customer}',  [CustomerController::class, 'show'])->name('customers.show');
 
     //products
+    Route::get('products/allProducts',  [ProductController::class, 'allProducts'])->name('products.allProducts');
     Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
 
     //products-supplier

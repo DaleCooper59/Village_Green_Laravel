@@ -40,15 +40,9 @@
                 @endif
             @endauth
             <div class="relative" x-data="{ open: false }">
-                 <a @click="open = true" href="#" class="font-semibold py-1 px-4 mr-3"><img src="{{ asset('img/picto_panier.png') }}"
-                    alt="panier"></a>
-                    <x-basket-cart>
-                        <x-slot name='products'>
-                            @foreach ($products as $item)
-                                <span>{{$item->label}}</span>
-                            @endforeach
-                        </x-slot>
-                    </x-basket-cart>
+                 <a @click="open = true" href="{{route('basket.index')}}" class="relative font-semibold py-1 px-4 mr-3"><img src="{{ asset('img/picto_panier.png') }}"
+                    alt="panier"><span class="absolute top-10 ml-6 z-75 text-green-400">{{Cart::count()}}</span></a>
+                    
             </div>
            
             <a href="{{ route('login') }}" class="font-semibold py-1 px-4 mr-3"><img

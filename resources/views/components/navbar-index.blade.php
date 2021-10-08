@@ -24,7 +24,7 @@
                 <ul class="list-reset lg:flex justify-end flex-1 items-center">
                     <li class="mr-3">
                         <a class="border-b-0 md:border-b-4 border-red-500 inline-block py-2 px-4 text-red-400 font-bold"
-                            href="#">Produits</a>
+                            href="{{route('products.allProducts')}}">Produits</a>
                     </li>
                     <li class="mr-3">
                         <a class="inline-block hover:text-red-400 hover:text-underline py-2 px-4" href="#">Service</a>

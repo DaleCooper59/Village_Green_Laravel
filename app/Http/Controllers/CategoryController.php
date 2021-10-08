@@ -44,7 +44,7 @@ class CategoryController extends Controller
      */
     public function create(Category $categories)
     {
-        $categoriesParent = Category::where('parent_id', null)->get();;
+        $categoriesParent = Category::where('parent_id', null)->get();
         return view('categories.create', compact('categoriesParent'));
     }
 

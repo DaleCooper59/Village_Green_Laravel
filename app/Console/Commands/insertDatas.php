@@ -115,14 +115,14 @@ class insertDatas extends Command
 
         $user->assignRole('god');
        
-        User::factory()->count(3)->create();
-        Country::factory()->count(3)->create();
-        City::factory()->count(3)->create();
-        Address::factory()->count(3)->create();
-        Company::factory()->count(3)->create();
-        Customer::factory()->count(3)->create();
-        Employee::factory()->count(3)->create();
-        Supplier::factory()->count(3)->create();
+        User::factory()->count(6)->create();
+        Country::factory()->count(6)->create();
+        City::factory()->count(6)->create();
+        Address::factory()->count(6)->create();
+        Company::factory()->count(6)->create();
+        Customer::factory()->count(6)->create();
+        Employee::factory()->count(6)->create();
+        Supplier::factory()->count(6)->create();
 
         $users = User::doesntHave('roles')->get();
         foreach($users as $user){

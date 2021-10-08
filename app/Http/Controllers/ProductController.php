@@ -18,6 +18,14 @@ class ProductController extends Controller
         return view('index', compact('products', 'categories', 'categoriesParent', 'customers'));
     }
 
+    public function allProducts(){
+        $categoriesParent =  Category::whereNull('parent_id')->with('children')->get();
+        $customers = Customer::all();
+        $products = Product::all();
+        $categories = Category::all();
+        return view('products.index', compact('products', 'categories', 'categoriesParent', 'customers'));
+    }
+
 
     /**
      * Show the form for creating a new resource.

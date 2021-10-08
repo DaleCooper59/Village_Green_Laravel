@@ -1,7 +1,19 @@
 @extends('layouts.app-index')
 
+@section('css')
+
+    <style>
+        input[type='number']::-webkit-inner-spin-button,
+        input[type='number']::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+    </style>
+@endsection
+
 @section('navbar')
-    <x-navbar-sub  :categoriesParent="$categoriesParent"/>
+    <x-navbar-sub :categoriesParent="$categoriesParent" />
 @endsection
 
 @section('content')
@@ -49,39 +61,122 @@
                         {{ $products->description }}
                     </p>
 
-                    <div
-                        class="relative max-w-sm min-w-[340px] bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
 
-                        <div class="mt-4 pl-2 mb-2 flex justify-between ">
-                            <div>
-                                <p class="text-lg text-gray-900 mb-0">Prix à l'unité</p>
-                                <p class="text-md font-bold text-gray-800 mt-0">{{ $products->unit_price_HT }} Euros</p>
-                            </div>
-                            <div class="flex flex-col-reverse mb-1 mr-4 group ">
-                                <a href="#" class='cursor-pointer'>
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 group-hover:opacity-50 opacity-70" fill="none" viewBox="0 0 24 24"
-                                        stroke="black">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                    </svg>
-                                </a>
-                                <a href="#" class='cursor-pointer'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:opacity-70"
-                                        fill="none" viewBox="0 0 24 24" stroke="gray">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                </a>
 
+                    <div class="w-full">
+                        <div class="custom-number-input h-7 w-32 flex items-center m-3">
+                            <label for="quantity" class="w-full underline text-gray-700 text-sm font-semibold">Quantité:
+                            </label>
+                            <div class="flex flex-row h-7 w-full rounded-lg relative bg-transparent mt-1">
+
+                                <button onclick="decrement(this)" data-action="decrement"
+                                    class=" ml-2 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
+                                    <span class="m-auto text-md font-thin">−</span>
+                                </button>
+                                <input type="number" name="quantity" min="0"
+                                    class="focus:outline-none text-center w-full border-none font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none"
+                                    value="0" />
+                                <button onclick="increment(this)" data-action="increment"
+                                    class=" text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+                                    <span class="m-auto text-md font-thin">+</span>
+                                </button>
 
                             </div>
                         </div>
                     </div>
 
+
+                    <div
+                        class="relative max-w-sm md:min-w-[340px] bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
+                        <div class="mt-4 pl-2 mb-2 flex flex-col lg:flex-row justify-between ">
+                            <div>
+                                <p class="text-lg text-gray-900 mb-0">Prix à l'unité</p>
+
+                                <p class="text-md font-bold text-gray-800 mt-0">
+
+                                    @if (Count(Auth::user()->customers))
+                                        {{ number_format( 
+                                            $products->unit_price_HT * (1 + (Auth::user()->customers[0]->coefficient/100))
+                                            , 2, ',', ' ')
+                                        }}
+                                    @elseif(Auth::user()->employees)
+                                        {{number_format( 
+                                           $products->unit_price_HT * (1 + (Auth::user()->employees[0]->coefficient/100))
+                                           , 2, ',', ' ')
+                                        }}
+                                    @else
+                                        {{ $products->unit_price_HT }}
+                                    @endif
+                                    € <small> hors taxe</small>
+                                </p>
+                            </div>
+                        
+
+                        <div class="flex md:flex-col md:mt-0 mt-2 mb-1 mr-4 group ">
+                            <a href="#" id="like" class='cursor-pointer md:px-0 px-2 hover:opacity-90 opacity-70'>
+                                <i class="far fa-heart"></i>
+                            </a>
+                            <form action="{{ route('basket.store') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $products->id }}">
+                                <input type="hidden" name="label" value="{{ $products->label }}">
+                                <input type="hidden" name="price" value="{{ $products->unit_price_HT }}">
+                                <button type="submit" id="addToCart" class='cursor-pointer  hover:opacity-90 opacity-70'>
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                            </form>
+
+                        </div>
+</div>
+                    </div>
+
+
+
+
                 </div>
             </div>
         </div>
-    </div>
 
-@endsection
+    @endsection
+
+    @section('js_footer')
+
+        <script>
+            function decrement(e) {
+                const btn = document.querySelector('button[data-action="decrement"]');
+                const target = btn.nextElementSibling;
+                let value = Number(target.value);
+                if (value > 0) {
+                    value--;
+                    target.value = value;
+                } else {
+                    alert('La quantité ne peut être négative !')
+                }
+
+            }
+
+            function increment(e) {
+                const btn = document.querySelector('button[data-action="increment"]');
+                const target = btn.previousElementSibling;
+                let value = Number(target.value);
+                value++;
+                target.value = value;
+            }
+
+            /* const decrementButtons = document.querySelectorAll(
+                 `button[data-action="decrement"]`
+             );
+
+             const incrementButtons = document.querySelectorAll(
+                 `button[data-action="increment"]`
+             );
+
+             decrementButtons.forEach(btn => {
+                 btn.addEventListener("click", decrement);
+             });
+
+             incrementButtons.forEach(btn => {
+                 btn.addEventListener("click", increment);
+             });*/
+        </script>
+    @endsection

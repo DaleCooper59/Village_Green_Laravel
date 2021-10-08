@@ -15,18 +15,20 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function __construct()
+    //public $owner; 
+
+    public function __construct(/*$owner*/)
   {
     //its just a dummy data object.
-    $products = Product::all();
+    //$this->owner = $owner;
 
     // Sharing is caring
-    View::share('products', $products);
+    //View::share('owner', $owner);
   }
 
     public function test(){
         $product = Product::all();
-        $owner = Company::find(1);
+        
         return view('test', compact('product'));
     }
     
