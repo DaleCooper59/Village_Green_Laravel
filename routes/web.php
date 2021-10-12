@@ -44,6 +44,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('basket', '\App\Http\Controllers\BasketController')->only(['index','store']);
 
     //orders
+    Route::get('orders/create',  [OrderController::class, 'create'])->name('orders.create');
     Route::post('orders/store',  [OrderController::class, 'store'])->name('orders.store');
 
 

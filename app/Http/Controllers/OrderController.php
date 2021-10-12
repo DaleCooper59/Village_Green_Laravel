@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
+use App\Models\Order;
+use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -21,9 +25,11 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Address $address, Product $products)
     {
-        //
+        $categoriesParent = Category::where('parent_id', null)->get();
+        return view('orders.create', compact('address', 'products', 'categoriesParent'));
+    }
     }
 
     /**
@@ -34,7 +40,26 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        
+        
+        $order = Order::create([
+            'label' => $request->label,
+            'ref' => $request->ref,
+            'picture' => $path,
+            'description' => $request->description,
+            'EAN' => $request->EAN,
+            'color' => $request->color,
+            'unit_price_HT' => $request->unit_price_HT,
+            'supply_ref' => $request->supply_ref,
+            'supply_product_name' => $request->supply_product_name,
+            'supply_unit_price_HT' => $request->supply_unit_price_HT,
+            'stock' => $request->stock,
+            'stock_alert' => $request->stock_alert
+        ]);
+
+        $product->categories()->attach($request->category);
+
+        return redirect()->route('products.show', $product->id)->with('success', 'Votre produit a bien été ajouté');
     }
 
     /**

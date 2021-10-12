@@ -74,15 +74,15 @@
                                 <div class="flex flex-row h-7 w-full rounded-lg relative bg-transparent mt-1">
 
                                     <a href="#" onclick="decrement()" data-action="decrement"
-                                        class="block ml-2 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
-                                        <span class="m-auto text-md font-thin">−</span>
+                                        class="block ml-2 border-0 text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-300 rounded-l cursor-pointer outline-none">
+                                        −
                                     </a>
-                                    <input type="number" name="quantity" min="1"
-                                        class="focus:outline-none text-center w-full border-none font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none"
+                                    <input type="text" name="quantity" min="1"
+                                        class="w-16 font-semibold text-center text-gray-700  border-0 outline-none focus:outline-none hover:text-black focus:text-black"
                                         value="1" />
                                     <a href="#" onclick="increment()" data-action="increment"
-                                        class="block text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
-                                        <span class="m-auto text-md font-thin">+</span>
+                                        class="block border-0 text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-300 rounded-r cursor-pointer">
+                                        +
                                     </a>
 
                                 </div>
@@ -97,10 +97,10 @@
                                     <p class="text-lg text-gray-900 mb-0">Prix à l'unité</p>
 
                                     <p class="text-md font-bold text-gray-800 mt-0">
-
+                                    
                                         @if (Count(Auth::user()->customers))
-                                            {{ number_format($products->unit_price_HT * (1 + Auth::user()->customers[0]->coefficient / 100), 2, ',', ' ') }}
-                                        @elseif(Auth::user()->employees)
+                                           {{ number_format($products->unit_price_HT * (1 + Auth::user()->customers[0]->coefficient / 100), 2, ',', ' ') }}
+                                        @elseif(Count(Auth::user()->employees))
                                             {{ number_format($products->unit_price_HT * (1 + Auth::user()->employees[0]->coefficient / 100), 2, ',', ' ') }}
                                         @else
                                             {{ $products->unit_price_HT }}

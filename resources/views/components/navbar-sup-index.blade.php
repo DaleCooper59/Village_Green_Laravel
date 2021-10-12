@@ -41,7 +41,7 @@
             @endauth
             <div class="relative" x-data="{ open: false }">
                  <a @click="open = true" href="{{route('basket.index')}}" class="relative font-semibold py-1 px-4 mr-3"><img src="{{ asset('img/picto_panier.png') }}"
-                    alt="panier"><span class="absolute top-10 ml-6 z-75 text-green-400">{{Cart::count()}}</span></a>
+                    alt="panier"> @livewire('cart-count')</a>
                     
             </div>
            

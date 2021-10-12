@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BasketController extends Controller
 {
@@ -16,14 +17,9 @@ class BasketController extends Controller
      */
     public function index()
     {
-        $rows  = Cart::content();
-        
-        $products = [];
-        foreach($rows as $row){
-            $products[]= Product::where('id', $row->id)->get();
-        }
+      
         $categoriesParent = Category::where('parent_id', null)->get();
-        return view('basket.index', compact('rows', 'categoriesParent', 'products'));
+        return view('basket.index', compact( 'categoriesParent'));
     }
 
     /**
@@ -44,8 +40,16 @@ class BasketController extends Controller
      */
     public function store(Request $request)
     {
-      
-        Cart::add($request->id, $request->label, $request->quantity,$request->price)->associate('\App\Models\Product');
+        $price = '';
+      if(Count(Auth::user()->customers)){
+        $price = $request->price * (1 + Auth::user()->customers[0]->coefficient / 100);
+      }elseif(Count(Auth::user()->employees)){
+        $price = $request->price * (1 + Auth::user()->employees[0]->coefficient / 100);
+      }else{
+          $price = $request->price;
+      }
+                                             
+        Cart::add($request->id, $request->label, $request->quantity,$price)->associate('\App\Models\Product');
         return back()->with('info', 'Vous avez un nouveau produit dans votre panier');
         
     }

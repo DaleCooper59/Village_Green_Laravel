@@ -19,7 +19,7 @@ class Supplier
     {
         if (count(Auth::user()->roles)) {
             $userRole = Auth::user()->roles[0]['name'];
-             $userRole === 'supply' ? $next($request) : abort(403, 'vous n\'etes pas dans l\'équipe des chargés de fournisseurs');
+             $userRole === 'supply' ? $next($request) : abort(403, 'vous n\'etes pas dans l\'équipe en charge des fournisseurs et de la réception des produits');
             }
         abort(403, 'vous n\'etes pas administrateur');
     }
