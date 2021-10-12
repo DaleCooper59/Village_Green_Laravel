@@ -62,6 +62,8 @@ return [
     */
 
     'home' => RouteServiceProvider::HOME,
+    'employee' => RouteServiceProvider::EMPLOYEE,
+    'customer' => RouteServiceProvider::CUSTOMER,
 
     /*
     |--------------------------------------------------------------------------

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -27,10 +28,10 @@ class OrderController extends Controller
      */
     public function create(Address $address, Product $products)
     {
-        $categoriesParent = Category::where('parent_id', null)->get();
+        $categoriesParent = Category ::where('parent_id', null)->get();
         return view('orders.create', compact('address', 'products', 'categoriesParent'));
     }
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -41,9 +42,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         
-        
         $order = Order::create([
-            'label' => $request->label,
+            'shipping_date' => 'En préparation',
             'ref' => $request->ref,
             'picture' => $path,
             'description' => $request->description,

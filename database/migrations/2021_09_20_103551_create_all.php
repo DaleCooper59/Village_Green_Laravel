@@ -70,6 +70,7 @@ class CreateAll extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('address_id');
+            $table->string('ref_customer');
             $table->string('type', 60);
             $table->decimal('coefficient', 4, 2, true);
             $table->timestamps();
@@ -94,16 +95,17 @@ class CreateAll extends Migration
 
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
-            $table->dateTime('shipping_date');
             $table->unsignedInteger('quantity_total');
             $table->decimal('discount', 5, 2, true)->nullable();
             $table->decimal('extra_discount', 5, 2, true)->nullable();
             $table->decimal('tax', 4, 2, true);
+            $table->decimal('amount_paid', 4, 2, true)->nullable();
             $table->string('payment_method')->nullable();
             $table->dateTime('payment_date');
+            $table->string('shipping_status');
+            $table->dateTime('shipping_date')->nullable();
             $table->string('model_type')->nullable();
             $table->unsignedInteger('model_id')->nullable();
-            $table->decimal('amount_paid', 4, 2, true)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -8,7 +8,12 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    
+    public function index()
+    {
+        
+        return view('customers.index');
+    }
+
     public function show(Customer $customer)
     {
         $address = $customer->address->first();

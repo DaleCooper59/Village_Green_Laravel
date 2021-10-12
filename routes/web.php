@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
@@ -46,6 +47,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     //orders
     Route::get('orders/create',  [OrderController::class, 'create'])->name('orders.create');
     Route::post('orders/store',  [OrderController::class, 'store'])->name('orders.store');
+
+    //customers
+    Route::get('/customers',  [CustomerController::class, 'index'])->name('customers.index');
+
+    //employees
+    Route::get('/employees',  [EmployeeController::class, 'index'])->name('employees.index');
 
 
     //catégories

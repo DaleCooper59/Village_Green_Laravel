@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -19,21 +20,22 @@ class CreateNewUser implements CreatesNewUsers
      * @return \App\Models\User
      */
     public function create(array $input)
-    { 
+    {
+        
         Validator::make($input, [
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
             'gender' => ['required', 'string', 'max:45'],
-            'age' => ['required','integer', 'max:200'],
+            'age' => ['required', 'integer', 'max:200'],
             'birth' => ['required', 'date', 'date_format:Y-m-d'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
-            'tel' => ['required','string', 'max:50'],
+            'tel' => ['required', 'string', 'max:50'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
 
-       
+
         return User::create([
             'username' => $input['username'],
             'firstname' => $input['firstname'],
@@ -45,5 +47,7 @@ class CreateNewUser implements CreatesNewUsers
             'tel' => $input['tel'],
             'password' => Hash::make($input['password']),
         ]);
+
+    
     }
 }
