@@ -15,9 +15,9 @@ class CreateAll extends Migration
     {
         
         Schema::create('countries', function (Blueprint $table) {
-            $table->bigIncrements('id')->unsigned();
+            $table->bigIncrements('id')->unsigned(); 
+            $table->string('country_code', 2);
             $table->string('name');
-            $table->string('country_code', 3);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,7 +26,7 @@ class CreateAll extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->unsignedBigInteger('country_id');
             $table->string('name');
-            $table->string('postal_code', 10);
+            $table->string('postal_code', 20);
             $table->timestamps();
             $table->softDeletes();
 
@@ -70,6 +70,7 @@ class CreateAll extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('address_id');
+            $table->unsignedBigInteger('employee_id');
             $table->string('ref_customer');
             $table->string('type', 60);
             $table->decimal('coefficient', 4, 2, true);
@@ -78,6 +79,7 @@ class CreateAll extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('address_id')->references('id')->on('address')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onUpdate('cascade')->onDelete('cascade');
         });
 
         Schema::create('suppliers', function (Blueprint $table) {

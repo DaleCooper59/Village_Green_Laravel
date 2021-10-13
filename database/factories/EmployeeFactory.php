@@ -25,11 +25,11 @@ class EmployeeFactory extends Factory
     {
         $user = User::all()->pluck('id')->toArray();
         $company = Company::all()->pluck('id')->toArray();
-        $department = ['Vendeur professionnel','Vendeur particulier'];
+        //$department = ['Vendeur professionnel','Vendeur particulier'];
         return [
             'user_id' => $this->faker->unique(true)->numberBetween(1,count($user)),
             'company_id' => rand(1,count($company)),
-            'department' => $this->faker->randomElement($department),
+            'department' =>'Vendeur professionnel',
         ];
     }
 }

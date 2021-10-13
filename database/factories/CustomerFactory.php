@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Address;
 use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -28,9 +29,14 @@ class CustomerFactory extends Factory
         $type = ['professionnel','particulier'];
         $choice = $this->faker->randomElement($type);
         $coef = $choice === 'professionnel' ? 2.2 : 5.6;
+        $arr  = ['2', '3', '4', '5'];
+        $eID = $choice === 'professionnel' ? (rand(2, count($arr))+1) : 1;
+        
         return [
             'user_id' => $this->faker->unique(true)->numberBetween(1,count($user)),
             'address_id' => $this->faker->numberBetween(1,count($address)),
+            'employee_id' => $eID,
+            'ref_customer' => $this->faker->randomElement($arr),
             'type' => $choice,
             'coefficient' => $coef,
         ];

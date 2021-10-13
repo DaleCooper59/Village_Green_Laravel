@@ -53,13 +53,16 @@ class insertDatas extends Command
      */
     public function handle()
     {
-        
+
         $this->call('migrate:fresh');
+        $this->call('countries');
+        $this->call('cities');
         $this->call('initRolesAndPermissions');
         /**
          * insertDatas
          */
-        
+        Address::factory()->count(6)->create();
+
         User::create(
             [
                 'username' => 'Dale',
@@ -75,8 +78,8 @@ class insertDatas extends Command
                 'remember_token' => 'cnfebd51!e',
             ],
 
-        );  
-        
+        );
+
         User::create(
             [
                 'username' => 'Robert',
@@ -92,9 +95,9 @@ class insertDatas extends Command
                 'remember_token' => 'cnffdekhjghjyr1!e',
             ],
 
-        );  
-        
-        
+        );
+
+
 
         $user = User::create(
             [
@@ -113,23 +116,46 @@ class insertDatas extends Command
 
         );
 
+        Company::create(
+            [
+                'id' => 1,
+                'address_id' => 1,
+                'name' => 'Village Green',
+                'SIRET' => '45657898659875',
+            ],
+
+        );
+
+        Employee::create([
+            'user_id' => 1,
+            'company_id' => 1,
+            'department' => 'Vendeur particulier',
+        ]);
+
+        Customer::create([
+            'user_id' => 1,
+            'address_id' => 2,
+            'employee_id' => 1,
+            'ref_customer' =>  'client#1',
+            'coefficient' => 5.6,
+            'type' => 'particulier',
+        ]);
+
         $user->assignRole('god');
-       
+
         User::factory()->count(6)->create();
-        Country::factory()->count(6)->create();
-        City::factory()->count(6)->create();
-        Address::factory()->count(6)->create();
         Company::factory()->count(6)->create();
-        Customer::factory()->count(6)->create();
         Employee::factory()->count(6)->create();
+        Customer::factory()->count(6)->create();
         Supplier::factory()->count(6)->create();
 
         $users = User::doesntHave('roles')->get();
-        foreach($users as $user){
+        foreach ($users as $user) {
             $user->assignRole('user');
         }
-        
-      
+
+
+
         /**
          * insertCategories
          */

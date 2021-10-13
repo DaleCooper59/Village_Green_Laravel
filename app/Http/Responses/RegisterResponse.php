@@ -16,6 +16,8 @@ class RegisterResponse implements RegisterResponseContract
            return new JsonResponse('', 201);
       }elseif($request->employee){
           return view('employees.index');
+      }elseif($request->customer){
+          return view('customers.index');
       }else{
           return redirect(config('fortify.home'));
       }

@@ -31,7 +31,7 @@
 
 @section('content')
 
-    <div class="bg-gray-100 mt-32">
+    <div class="bg-gray-100 my-32">
         <div class="w-full text-gray-300 bg-gradient-to-b from-white to-gray-100">
             <div x-data="{ open: false }"
                 class="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">

@@ -36,6 +36,17 @@ Route::middleware('guest')->group(function () {
 //Acceuil
 Route::get('/index',  [ProductController::class, 'index'])->name('index');
 
+ //products
+ Route::get('products/allProducts',  [ProductController::class, 'allProducts'])->name('products.allProducts');
+ Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
+
+//catégories
+//Route::resource('categories', '\App\Http\Controllers\CategoryController');
+Route::get('categories',  [CategoryController::class, 'index'])->name('categories.index');
+Route::get('categories/show/{category}',  [CategoryController::class, 'show'])->name('categories.show');
+Route::get('categories/categoriesChild/{category}',  [CategoryController::class, 'categoriesChild'])->name('categories.categoriesChild');
+
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     //dashboard
@@ -53,20 +64,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     //employees
     Route::get('/employees',  [EmployeeController::class, 'index'])->name('employees.index');
+    Route::post('employees/store',  [EmployeeController::class, 'store'])->name('employees.store');
 
-
-    //catégories
-    //Route::resource('categories', '\App\Http\Controllers\CategoryController');
-    Route::get('categories',  [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('categories/show/{category}',  [CategoryController::class, 'show'])->name('categories.show');
-    Route::get('categories/categoriesChild/{category}',  [CategoryController::class, 'categoriesChild'])->name('categories.categoriesChild');
- 
     //customers
     Route::get('customers/show/{customer}',  [CustomerController::class, 'show'])->name('customers.show');
-
-    //products
-    Route::get('products/allProducts',  [ProductController::class, 'allProducts'])->name('products.allProducts');
-    Route::get('products/show/{products}',  [ProductController::class, 'show'])->name('products.show');
+    Route::post('customers/store',  [CustomerController::class, 'store'])->name('customers.store');
 
     //products-supplier
     Route::group(['middleware' => ['supplier']], function () {
