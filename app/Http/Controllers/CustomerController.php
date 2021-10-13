@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Category;
-use App\Models\City;
 use App\Models\Customer;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -12,11 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
-    public function index(City $cities, Request $request)
+    public function index()
     {
-        
-        $cities = City::search($request->search)->paginate(15);
-        return view('customers.index', compact('cities'));
+      
+        return view('customers.index');
     }
 
      /**
@@ -28,13 +26,14 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
 
-        $address = Address::where('name', 'Village Green')->first();
+        //$address = Address::where('street', $request->street)->first();
         $particulierCommercial = Employee::where('department', 'Vendeur particulier')->first();
-        $proCommercial = Employee::where('department', '!=', 'Vendeur particulier')->random(1);
+        $count = Employee::where('department', '!=', 'Vendeur particulier')->count();
+        $proCommercial = rand(1, $count);
         $customers = Count(Customer::all()) + 1;
         $clientNumber = 'client#' .  $customers;
         $coef = $request->type === strtolower('particulier') ? 5.6 : 2.2;
-        $eID = $request->type === strtolower('particulier') ? $particulierCommercial->id : $proCommercial->id;
+        $eID = $request->type === strtolower('particulier') ? $particulierCommercial->id : $proCommercial;
 
         Customer::create([
             'user_id' => Auth::user()->id,

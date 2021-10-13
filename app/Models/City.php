@@ -29,10 +29,5 @@ class City extends Model
     {
         return $this->belongsTo(Country::class, 'country_id');
     }
-
     
-    public function scopeSearch($query, $search)
-    {
-        return $query->where('name', 'LIKE', "%$search%");
-    }
 }

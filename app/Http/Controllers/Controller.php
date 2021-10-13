@@ -32,6 +32,11 @@ class Controller extends BaseController
         return view('test', compact('product'));
     }
     
+    
+   /*- public function Search($query, $search)
+    {
+        return $query->where('name', 'LIKE', "%$search%");
+    }*/
 }
 
 

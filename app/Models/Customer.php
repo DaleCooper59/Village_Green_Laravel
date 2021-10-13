@@ -38,4 +38,6 @@ class Customer extends Model
     {
         return $this->morphMany(Order::class, 'model');
     }
+
+    
 }
