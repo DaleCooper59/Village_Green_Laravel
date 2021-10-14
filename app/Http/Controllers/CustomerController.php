@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Customer;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -13,8 +14,8 @@ class CustomerController extends Controller
 {
     public function index()
     {
-      
-        return view('customers.index');
+        $cities = City::where('name','like', '%'.$this->search.'%' )->paginate(20);
+        return view('customers.index', compact('cities'));
     }
 
      /**
@@ -25,17 +26,18 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
+       
 
-        //$address = Address::where('street', $request->street)->first();
         $particulierCommercial = Employee::where('department', 'Vendeur particulier')->first();
         $count = Employee::where('department', '!=', 'Vendeur particulier')->count();
         $proCommercial = rand(1, $count);
-        $customers = Count(Customer::all()) + 1;
+        $customers = Count(Customer::all()->pluck('id')->toArray()) + 1;
         $clientNumber = 'client#' .  $customers;
         $coef = $request->type === strtolower('particulier') ? 5.6 : 2.2;
         $eID = $request->type === strtolower('particulier') ? $particulierCommercial->id : $proCommercial;
 
-        Customer::create([
+        $customer = Customer::create([
             'user_id' => Auth::user()->id,
             'address_id' => 3,
             'employee_id' => $eID,
@@ -44,7 +46,24 @@ class CustomerController extends Controller
             'coefficient' => $coef,
         ]);
 
-        return redirect()->route('index')->with('success', 'Bravo, c\'est l\'heure du shopping maintenant !');
+         $oldAddress = Address::where('street', $request->street)->first();
+        if(!empty($oldAddress) && $oldAddress->city === $request->cities){
+            $customer->address()->associate($oldAddress->id);
+            $customer->save();
+            return redirect()->route('index')->with('success', 'Bravo, c\'est l\'heure du shopping maintenant !');
+        }else{
+            $city = City::where('id', $request->cities)->first();
+            $address = Address::create([
+                'street' => $request->street,
+                'city_id' => $city->id,
+            ]);
+           
+            $customer->address()->associate($address->id);
+            $customer->save();
+            return redirect()->route('index')->with('success', 'Bravo, c\'est l\'heure du shopping maintenant !');
+        }
+
+        
     }
 
     public function show(Customer $customer)

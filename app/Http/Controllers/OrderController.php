@@ -28,8 +28,9 @@ class OrderController extends Controller
      */
     public function create(Address $address, Product $products)
     {
+        $rows = Cart::content();
         $categoriesParent = Category ::where('parent_id', null)->get();
-        return view('orders.create', compact('address', 'products', 'categoriesParent'));
+        return view('orders.create', compact('address', 'products', 'categoriesParent', 'rows'));
     }
     
 

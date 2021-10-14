@@ -20,3 +20,8 @@ footer li:hover{
 #paraph{
     font-style: italic;
 }
+
+.link:focus{
+    outline: none!important;
+    border: none!important;
+}
