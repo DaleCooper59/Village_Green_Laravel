@@ -26,9 +26,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
-       
-
+        
         $particulierCommercial = Employee::where('department', 'Vendeur particulier')->first();
         $count = Employee::where('department', '!=', 'Vendeur particulier')->count();
         $proCommercial = rand(1, $count);
@@ -48,7 +46,7 @@ class CustomerController extends Controller
 
          $oldAddress = Address::where('street', $request->street)->first();
         if(!empty($oldAddress) && $oldAddress->city === $request->cities){
-            $customer->address()->associate($oldAddress->id);
+            $customer->address()->attach($oldAddress->id);
             $customer->save();
             return redirect()->route('index')->with('success', 'Bravo, c\'est l\'heure du shopping maintenant !');
         }else{
@@ -58,7 +56,7 @@ class CustomerController extends Controller
                 'city_id' => $city->id,
             ]);
            
-            $customer->address()->associate($address->id);
+            $customer->address()->attach($address->id);
             $customer->save();
             return redirect()->route('index')->with('success', 'Bravo, c\'est l\'heure du shopping maintenant !');
         }

@@ -132,14 +132,20 @@ class insertDatas extends Command
             'department' => 'Vendeur particulier',
         ]);
 
-        Customer::create([
+        $customer1 = Customer::create([
             'user_id' => 1,
-            'address_id' => 2,
             'employee_id' => 1,
             'ref_customer' =>  'client#1',
             'coefficient' => 5.6,
             'type' => 'particulier',
         ]);
+
+        
+        $ad2 = Address::where('id', 2)->first();
+        
+        $customer1->address()->attach($ad2->id);
+
+        $customer1->save();
 
         $user->assignRole('god');
 
@@ -276,5 +282,6 @@ class insertDatas extends Command
                 'stock_alert' => $stock > 1 ? $stock * 0.4 : 0,
             ]);
         }
+
     }
 }

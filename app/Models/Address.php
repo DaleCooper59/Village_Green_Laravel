@@ -33,7 +33,7 @@ class Address extends Model
      */
     public function customers()
     {
-        return $this->hasMany(Customer::class);
+        return $this->belongsToMany(Customer::class, 'address_customer', 'address_id', 'customer_id');
     }
     /**
      * Get the suppliers for the address.

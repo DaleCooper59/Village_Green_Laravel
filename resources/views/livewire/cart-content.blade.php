@@ -57,7 +57,7 @@
                                         <a href="#"
                                             wire:click="decrementQuantity('{{ $row->rowId }}', '{{ $row->qty }}');"
                                             class="block ml-2 border-0 text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-300 rounded-l cursor-pointer outline-none">
-                                           −
+                                            −
                                         </a>
                                         <input type="text" id="quantity" name="quantity" min="1"
                                             class="w-16 font-semibold text-center text-gray-700  border-0 outline-none focus:outline-none hover:text-black focus:text-black"
@@ -65,7 +65,7 @@
                                         <a href="#"
                                             wire:click="incrementQuantity('{{ $row->rowId }}', '{{ $row->qty }}');"
                                             class="block border-0 text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-300 rounded-r cursor-pointer">
-                                           +
+                                            +
                                         </a>
 
                                     </div>
@@ -90,45 +90,37 @@
                 </tbody>
             </table>
             <hr class="pb-6 mt-6">
-            <div class="my-4 mt-6 -mx-2 lg:flex">
-                <div class="lg:px-2 lg:w-1/2">
-                    <div class="p-4 bg-gray-100 rounded-full">
-                        <h1 class="ml-2 font-bold uppercase">Code coupons, réductions, ...</h1>
-                    </div>
-                    <div class="p-4">
-                        <p class="mb-4 italic">Entrez le code juste en dessous</p>
-                        <div class="justify-center md:flex">
-                            <form action="" method="POST">
-                                <div class="flex items-center w-full h-13 pl-3  bg-gray-100 border rounded-full">
-                                    <input type="coupon" name="code" id="coupon" placeholder="Appliquer" value="90%"
+            <form action="{{ route('orders.create') }}" method="get">
+                @csrf
+
+                <div class="my-4 mt-6 -mx-2 lg:flex">
+                    <div class="lg:px-2 lg:w-1/2">
+                        <div class="p-4 bg-gray-100 rounded-full">
+                            <h1 class="ml-2 font-bold uppercase">Code coupons, réductions, ...</h1>
+                        </div>
+                        <div class="p-4">
+                            <p class="mb-4 italic">Entrez le code juste en dessous</p>
+                            <div class="justify-center md:flex">
+
+                                <div class="flex items-center w-1/4 h-13 pl-3  bg-gray-100 border rounded-full">
+                                    <input type="coupon" name="code" id="coupon" placeholder="Appliquer" value="SUPER10"
                                         class="w-full bg-gray-100 outline-none appearance-none focus:outline-none active:outline-none" />
-                                    <button type="submit"
-                                        class="text-sm flex items-center px-3 py-1 text-white bg-gray-800 rounded-full outline-none md:px-4 hover:bg-gray-700 focus:outline-none active:outline-none">
-                                        <svg aria-hidden="true" data-prefix="fas" data-icon="gift"
-                                            class="w-8" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 512 512">
-                                            <path fill="currentColor"
-                                                d="M32 448c0 17.7 14.3 32 32 32h160V320H32v128zm256 32h160c17.7 0 32-14.3 32-32V320H288v160zm192-320h-42.1c6.2-12.1 10.1-25.5 10.1-40 0-48.5-39.5-88-88-88-41.6 0-68.5 21.3-103 68.3-34.5-47-61.4-68.3-103-68.3-48.5 0-88 39.5-88 88 0 14.5 3.8 27.9 10.1 40H32c-17.7 0-32 14.3-32 32v80c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-80c0-17.7-14.3-32-32-32zm-326.1 0c-22.1 0-40-17.9-40-40s17.9-40 40-40c19.9 0 34.6 3.3 86.1 80h-86.1zm206.1 0h-86.1c51.4-76.5 65.7-80 86.1-80 22.1 0 40 17.9 40 40s-17.9 40-40 40z" />
-                                        </svg>
-                                        <span class="font-medium">Appliquer</span>
-                                    </button>
+
                                 </div>
-                            </form>
+
+                            </div>
+                        </div>
+                        <div class="p-4 mt-6 bg-gray-100 rounded-full">
+                            <h1 class="ml-2 font-bold uppercase">Instruction pour le vendeur</h1>
+                        </div>
+                        <div class="p-4">
+                            <p class="mb-4 italic">Inscrivez en dessous vos instructions si besoin</p>
+                            <textarea class="w-full h-24 p-2 bg-gray-100 rounded"></textarea>
                         </div>
                     </div>
-                    <div class="p-4 mt-6 bg-gray-100 rounded-full">
-                        <h1 class="ml-2 font-bold uppercase">Instruction pour le vendeur</h1>
-                    </div>
-                    <div class="p-4">
-                        <p class="mb-4 italic">Inscrivez en dessous vos instructions si besoin</p>
-                        <textarea class="w-full h-24 p-2 bg-gray-100 rounded"></textarea>
-                    </div>
-                </div>
 
 
-                <div class="lg:px-2 lg:w-1/2">
-                    <form action="{{ route('orders.create') }}" method="get">
-                        @csrf
+                    <div class="lg:px-2 lg:w-1/2">
 
                         <div class="p-4 bg-gray-100 rounded-full">
                             <h1 class="ml-2 font-bold uppercase">Montant de la commande</h1>
@@ -138,7 +130,7 @@
                                 seront calculés en fonction des produits et dela quantité choisie</p>
                             <div class="flex justify-between border-b">
                                 <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
-                                    Sous total 
+                                    Sous total
                                 </div>
                                 <input id="subTotal" value="{{ Cart::subtotal() }}"
                                     class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-400 focus:outline-none">
@@ -146,14 +138,7 @@
 
                             </div>
 
-                            <div class="flex justify-between pt-4 border-b">
-                                <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
-                                    Sous total après réductions
-                                </div>
-                                <input id="newSubTotal" value=" 14,882.75 €"
-                                    class="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-400 focus:outline-none">
-
-                            </div>
+                           
                             <div class="flex justify-between pt-4 border-b">
                                 <div class="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                                     Taxe ( 19.6 %)
@@ -182,11 +167,11 @@
                                 </button>
                             </a>
                         </div>
-                    </form>
+
+                    </div>
+
                 </div>
-
-            </div>
-
+            </form>
         </div>
     </div>
 

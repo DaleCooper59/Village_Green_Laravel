@@ -25,7 +25,6 @@ class CustomerFactory extends Factory
     public function definition()
     {
         $user = User::all()->pluck('id')->toArray();
-        $address = Address::all()->pluck('id')->toArray();
         $type = ['professionnel','particulier'];
         $choice = $this->faker->randomElement($type);
         $coef = $choice === 'professionnel' ? 2.2 : 5.6;
@@ -34,7 +33,6 @@ class CustomerFactory extends Factory
         
         return [
             'user_id' => $this->faker->unique(true)->numberBetween(1,count($user)),
-            'address_id' => $this->faker->numberBetween(1,count($address)),
             'employee_id' => $eID,
             'ref_customer' => $this->faker->randomElement($arr),
             'type' => $choice,

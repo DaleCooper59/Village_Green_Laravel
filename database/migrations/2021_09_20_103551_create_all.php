@@ -69,7 +69,6 @@ class CreateAll extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('address_id');
             $table->unsignedBigInteger('employee_id');
             $table->string('ref_customer');
             $table->string('type', 60);
@@ -78,8 +77,14 @@ class CreateAll extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('address_id')->references('id')->on('address')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('address_customer', function (Blueprint $table) {
+            $table->bigInteger('address_id')->unsigned();
+            $table->foreign('address_id')->references('id')->on('address')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('customer_id')->unsigned();
+            $table->foreign('customer_id')->references('id')->on('customers')->onUpdate('cascade')->onDelete('cascade');
         });
 
         Schema::create('suppliers', function (Blueprint $table) {

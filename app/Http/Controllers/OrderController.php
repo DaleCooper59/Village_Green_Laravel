@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -26,11 +28,26 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Address $address, Product $products)
+    public function create(Customer $customer, Address $address, Product $products, Request $request)
     {
+        $address = $customer->address->first();
+
         $rows = Cart::content();
+        if(!empty($request->code)){
+            $str = substr($request->code, -2) ; 
+            $reduction = intval($str,10);
+        }
+
+        $totals= [];
+        foreach($rows as $row){
+            $totals[] += $row->price * $row->qty;
+        }
+      
+        $paymentMethod = ['Visa', 'MasterCard', 'Paypal', '4 fois sans frais'];
+        $priceWithReduction = number_format(array_sum($totals)*(1+(19.6/100)) * (1-($reduction/100)),2,'.','') ;
+        
         $categoriesParent = Category ::where('parent_id', null)->get();
-        return view('orders.create', compact('address', 'products', 'categoriesParent', 'rows'));
+        return view('orders.create', compact('address', 'products', 'categoriesParent', 'rows', 'reduction', 'priceWithReduction', 'paymentMethod'));
     }
     
 
@@ -43,13 +60,14 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         
+        $amount = Auth::user()->customers->type === 'particulier' ? 'totalité' : 'paiement différé';
         $order = Order::create([
-            'shipping_date' => 'En préparation',
-            'ref' => $request->ref,
-            'picture' => $path,
-            'description' => $request->description,
-            'EAN' => $request->EAN,
-            'color' => $request->color,
+            'qunatity_total' => Cart::count(),
+            'discount' => $request->reduction,
+            'extra-discount' => null,
+            'tax' => Cart::tax(),
+            'amount_paid' => $amount,
+            'payment_method' => $request->color,
             'unit_price_HT' => $request->unit_price_HT,
             'supply_ref' => $request->supply_ref,
             'supply_product_name' => $request->supply_product_name,

@@ -19,7 +19,7 @@
             <div class="flex flex-col justtify-center my-24">
                 <h3 class="text-2xl font-normal leading-normal mt-0 mb-2 text-red-700">
                     Rappel de la commande
-                  </h3>
+                </h3>
 
                 <div>
                     <table class="min-w-full table-auto">
@@ -58,14 +58,17 @@
                             @endforeach
                         </tbody>
                         <tfoot class="bg-gray-800">
-                            <tr >
-                                 <th class="px-16 py-2"></th>
-                                 <th class="px-16 py-2"><span class="text-gray-300">Quantité totale :  </span></th>
-                                 <th class="px-16 py-2"><span class="text-gray-300">Prix total : {{Cart::total()}} € ttc</span></th>
+                            <tr>
+                                <th class="px-16 py-2"></th>
+                                <th class="px-16 py-2"><span class="text-gray-300">Quantité totale :
+                                        {{ Cart::count() }} </span></th>
+                                <th class="px-16 py-2"><span class="text-gray-300">Prix total :
+                                        {{ $priceWithReduction }} € ttc</span></th>
                             </tr>
-                           
+
                         </tfoot>
                     </table>
+                    <small>*Réduction de {{ $reduction }} % inclus</small>
                 </div>
             </div>
 
@@ -74,14 +77,41 @@
             <form method="post" action="{{ route('orders.store') }}" enctype="multipart/form-data"
                 class="max-w-screen-md grid sm:grid-cols-2 gap-4 mx-auto">
                 @csrf
+                <input type="hidden" value="{{ $reduction }}">
+                <input type="hidden" value="{{ $priceWithReduction }}">
 
-                <!----Qty_total---->
-                <div>
-                    <label for="label" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Quantité totale</label>
-                    <input name="label" id="label" type="text" value="{{ old('label') }}" placeholder="Maracas"
+                <!----paymentMethod---->
+                <div class="relative inline-flex sm:col-span-2">
+                    <select name="paymentMethod" id="paymentMethod"
+                        class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+                        <option selected="selected">--Choisissez une méthode de paiement--</option>
+
+                        @for ($i = 0; $i < Count($paymentMethod); $i++)
+                            <option value="{{ $paymentMethod[$i] }} ?>">{{ $paymentMethod[$i] }} </option>
+                        @endfor
+
+                    </select>
+
+                    @error('paymentMethod')
+                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                @enderror
+                </div>
+
+                <!----address---->
+                <div class="sm:col-span-2">
+                    <label for="address" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Adresse postale</label>
+                    <textarea name="address" id="address" type="text" name="address"
+                    value="{{ $address->street . br . $address->city->postal_code . br . $address->city->name }}" placeholder="Il s'agit de petites ..."
+                    class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300"></textarea>
+                  
+                </div>
+                <!----deliveryAdress---->
+                <div class="sm:col-span-2">
+                    <label for="deliveryAdress" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Adresse de livraison</label>
+                    <input name="deliveryAdress" id="deliveryAdress" type="text" value="{{ old('deliveryAdress') }}" placeholder="Rue ..."
                         class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
 
-                    @error('label')
+                    @error('deliveryAddress')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
                 </div>
