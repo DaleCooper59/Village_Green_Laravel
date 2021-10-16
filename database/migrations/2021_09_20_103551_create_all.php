@@ -106,7 +106,7 @@ class CreateAll extends Migration
             $table->decimal('discount', 5, 2, true)->nullable();
             $table->decimal('extra_discount', 5, 2, true)->nullable();
             $table->decimal('tax', 4, 2, true);
-            $table->decimal('amount_paid', 4, 2, true)->nullable();
+            $table->string('amount_paid')->nullable();
             $table->string('payment_method')->nullable();
             $table->dateTime('payment_date');
             $table->string('shipping_status');

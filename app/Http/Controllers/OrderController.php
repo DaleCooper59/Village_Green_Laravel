@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
@@ -62,26 +63,45 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $amount = Auth::user()->customers->type === 'particulier' ? 'totalité' : 'paiement différé';
+       
+        $customer = Auth::user()->customers->first();
+        $amount = $customer->type === 'particulier' ? 'totalité' : 'paiement différé';
         $payDate = $amount === 'totalité' ? Carbon::now() : '';
         $order = Order::create([
-            'qunatity_total' => Cart::count(),
+            'quantity_total' => Cart::count(),
             'discount' => $request->reduction,
-            'extra-discount' => null,
-            'tax' => Cart::tax(),
+            'extra_discount' => null,
+            'tax' => 19.6,
             'amount_paid' => $amount,
             'payment_method' => $request->paymentMethod,
             'payment_date' =>  $payDate,
             'shipping_status' => 'En préparation',
             'shipping_date' => null,
         ]);
-        $order->customer
-//attach model type to customer
-        $address = $request->address === $request->deliveryAddress ? $request->address : $request->deliveryAddress;
-        $order->address()->attach($address->id);
+        $order->model()->associate($customer)->save();
 
-        return redirect()->route('index')->with('success', 'Votre commande à bien ét prise en compte');
+        $addressPostalStreet = $customer->address->first()->street;
+        $address = $request->deliveryStreet === $addressPostalStreet ? $addressPostalStreet : $request->deliveryStreet;
+        // a finir !!!!!!!!!!!!!!!!!
+        if($address !== $addressPostalStreet){
+            $find = Address::where('street', $address)->first();
+            if($find !== null){
+                $city = City::where('name', $find->city->first())->first();
+               if($city !== null){
+                $order->address()->attach($find->id);
+               }
+            }else{
+                //city_id?,,
+                $ad = Address::create([
+                    'street' => $request->deliveryStreet,
+                ])
+            }
+        }
+        
+        $order->address()->attach($customer->address->first()->id);
+
+        $order->save();
+        return redirect()->route('index')->with('success', 'Votre commande à bien été prise en compte');
     }
 
     /**

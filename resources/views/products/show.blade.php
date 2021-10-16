@@ -97,11 +97,13 @@
                                     <p class="text-lg text-gray-900 mb-0">Prix à l'unité</p>
 
                                     <p class="text-md font-bold text-gray-800 mt-0">
-                                    
-                                        @if (Count(Auth::user()->customers))
+                                   @auth
+                                       @if (Count(Auth::user()->customers))
                                            {{ number_format($products->unit_price_HT * (1 + Auth::user()->customers[0]->coefficient / 100), 2, ',', ' ') }}
                                         @elseif(Count(Auth::user()->employees))
                                             {{ number_format($products->unit_price_HT * (1 + Auth::user()->employees[0]->coefficient / 100), 2, ',', ' ') }}
+                                   @endauth
+                                        
                                         @else
                                             {{ $products->unit_price_HT }}
                                         @endif

@@ -77,8 +77,8 @@
             <form method="post" action="{{ route('orders.store') }}" enctype="multipart/form-data"
                 class="max-w-screen-md grid sm:grid-cols-2 gap-4 mx-auto">
                 @csrf
-                <input type="hidden" value="{{ $reduction }}">
-                <input type="hidden" value="{{ $priceWithReduction }}">
+                <input type="hidden" name="reduction" value="{{ $reduction }}">
+                <input type="hidden"  name="priceWithReduction" value="{{ $priceWithReduction }}">
 
                 <!----paymentMethod---->
                 <div class="relative inline-flex sm:col-span-2">
@@ -87,7 +87,7 @@
                         <option selected="selected">--Choisissez une méthode de paiement--</option>
 
                         @for ($i = 0; $i < Count($paymentMethod); $i++)
-                            <option value="{{ $paymentMethod[$i] }} ?>">{{ $paymentMethod[$i] }} </option>
+                            <option value="{{ $paymentMethod[$i] }}">{{ $paymentMethod[$i] }} </option>
                         @endfor
 
                     </select>
@@ -108,11 +108,12 @@
                 </div>
                 <!----deliveryAddress---->
                 <div class="sm:col-span-2">
-                    <label for="deliveryAddress" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Adresse de livraison</label>
-                    <textarea name="deliveryAddress" id="deliveryAddress" type="text" value="{{ old('address') }}" 
-                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" >
-                        {{ $address->street }} 
-                        {{$address->city->postal_code . ' ' . $address->city->name }}</textarea>
+                    <label for="deliveryStreet" class="block text-gray-800 text-sm sm:text-base mb-2">Adresse de livraison</label>
+                    <input name="deliveryStreet" id="deliveryStreet" type="text" value="{{ $address->street }}"
+                    class="w-1/3 bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
+                    <div class="flex w-1/3  justify-center sm:col-span-2">
+                        @livewire('search')
+                    </div>
 
                     @error('deliveryAddress')
                         <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
