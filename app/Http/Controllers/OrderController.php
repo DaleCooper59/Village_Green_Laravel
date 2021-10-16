@@ -41,9 +41,12 @@ class OrderController extends Controller
             return 0;
         }
 
-
+        $addressEmployee ='';
         $address = $customer->address->first();
-        $addressEmployee = $employee->company->address->first();
+        if(isset($employee->company->address)){
+            $addressEmployee = $employee->company->address->first();
+        }
+        
 
         $rows = Cart::content();
         if (!empty($request->code)) {

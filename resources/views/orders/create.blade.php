@@ -103,14 +103,14 @@
                         postale</label>
                     <textarea name="address" id="address" type="text" name="address"
                         class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300">
-                         @if (Auth::user()->employees)
-                         {{ $addressEmployee->street }} 
-                         {{ $addressEmployee->city->postal_code . ' ' . $addressEmployee->city->name }}
+                             @if (isset($addressEmployee->street))
+                             {{ $addressEmployee->street }} 
+                             {{ $addressEmployee->city->postal_code . ' ' . $addressEmployee->city->name }}
                      @else
-                           {{ $address->street }} 
-                        {{ $address->city->postal_code . ' ' . $address->city->name }}
-                         @endif
-                            </textarea>
+                               {{ $address->street }} 
+                            {{ $address->city->postal_code . ' ' . $address->city->name }}
+                             @endif
+                                </textarea>
 
 
                 </div>
@@ -118,7 +118,7 @@
                 <div class="sm:col-span-2">
                     <label for="deliveryStreet" class="block text-gray-800 text-sm sm:text-base mb-2">Adresse de
                         livraison</label>
-                    <input name="deliveryStreet" id="deliveryStreet" type="text" @if (Auth::user()->employees)
+                    <input name="deliveryStreet" id="deliveryStreet" type="text" @if (isset($addressEmployee->street))
                     value="{{ $addressEmployee->street }}"
                 @else
                     value="{{ $address->street }}"
