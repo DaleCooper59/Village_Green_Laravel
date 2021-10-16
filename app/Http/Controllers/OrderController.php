@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\Order;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -30,30 +31,38 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Customer $customer, Address $address, Product $products, Request $request)
+    public function create(Customer $customer, Employee $employee, Address $address, Product $products, Request $request)
     {
-        
-        $customer = Auth::user()->customers->first();
+        if (!empty(Auth::user()->employees->first())) {
+            $employee = Auth::user()->employees->first();
+        } elseif (!empty(Auth::user()->customers->first())) {
+            $customer = Auth::user()->customers->first();
+        } else {
+            return 0;
+        }
+
+
         $address = $customer->address->first();
+        $addressEmployee = $employee->company->address->first();
 
         $rows = Cart::content();
-        if(!empty($request->code)){
-            $str = substr($request->code, -2) ; 
-            $reduction = intval($str,10);
+        if (!empty($request->code)) {
+            $str = substr($request->code, -2);
+            $reduction = intval($str, 10);
         }
 
-        $totals= [];
-        foreach($rows as $row){
+        $totals = [];
+        foreach ($rows as $row) {
             $totals[] += $row->price * $row->qty;
         }
-      
+
         $paymentMethod = ['Visa', 'MasterCard', 'Paypal', '4 fois sans frais'];
-        $priceWithReduction = number_format(array_sum($totals)*(1+(19.6/100)) * (1-($reduction/100)),2,'.','') ;
-        
-        $categoriesParent = Category ::where('parent_id', null)->get();
-        return view('orders.create', compact('address', 'products', 'categoriesParent', 'rows', 'reduction', 'priceWithReduction', 'paymentMethod'));
+        $priceWithReduction = number_format(array_sum($totals) * (1 + (19.6 / 100)) * (1 - ($reduction / 100)), 2, '.', '');
+
+        $categoriesParent = Category::where('parent_id', null)->get();
+        return view('orders.create', compact('address', 'employee', 'addressEmployee', 'customer', 'products', 'categoriesParent', 'rows', 'reduction', 'priceWithReduction', 'paymentMethod'));
     }
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -63,10 +72,22 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-       
+        $return = redirect()->route('index')->with('success', 'Votre commande à bien été prise en compte');
+        //customer?
         $customer = Auth::user()->customers->first();
-        $amount = $customer->type === 'particulier' ? 'totalité' : 'paiement différé';
+        
+        if (Auth::user()->customers === null) {
+           if($customer->type === 'particulier'){
+                $amount =  'totalité';
+           }else{
+               $amount = 'paiement différé';
+           }
+        }else{
+             $amount = 'totalité';
+        }
+       
         $payDate = $amount === 'totalité' ? Carbon::now() : '';
+
         $order = Order::create([
             'quantity_total' => Cart::count(),
             'discount' => $request->reduction,
@@ -78,30 +99,68 @@ class OrderController extends Controller
             'shipping_status' => 'En préparation',
             'shipping_date' => null,
         ]);
-        $order->model()->associate($customer)->save();
 
-        $addressPostalStreet = $customer->address->first()->street;
+        $employee = Auth::user()->employees->first();
+
+    
+        if(isset($customer->address)){
+            $order->model()->associate($customer)->save();
+            $addressPostalStreet = $customer->address->first()->street;
+        }else {
+            $order->model()->associate($employee)->save();
+            $addressPostalStreet = $employee->company->address->first()->street;
+        }
+
         $address = $request->deliveryStreet === $addressPostalStreet ? $addressPostalStreet : $request->deliveryStreet;
-        // a finir !!!!!!!!!!!!!!!!!
-        if($address !== $addressPostalStreet){
+
+
+        if ($address !== $addressPostalStreet) {
             $find = Address::where('street', $address)->first();
-            if($find !== null){
+            if ($find !== null) {
+                //rue existe dans la bdd
                 $city = City::where('name', $find->city->first())->first();
-               if($city !== null){
-                $order->address()->attach($find->id);
-               }
-            }else{
-                //city_id?,,
+                if ($city !== null && $find->city_id === $city->id) {
+                    //ville existe dans la bdd + rue
+                    $order->address()->attach($find->id);
+                    $order->save();
+                    return $return;
+                } else {
+                    $newCity = City::create([
+                        'name' => $request->city,
+                        'postal_code' => $request->postal_code,
+                    ]);
+                    $find->city->associate($newCity);
+                    $order->address()->attach($find->id);
+                    $order->save();
+                    return  $return;
+                }
+            }/*sinon*/ else {
+                $city1 = City::where('name', $request->city)->first();
                 $ad = Address::create([
                     'street' => $request->deliveryStreet,
-                ])
+                    'city_id' => $city1->id,
+                ]);
+
+                $order->address()->attach($ad->id);
+                $order->save();
+                return  $return;
             }
         }
+
+        if(isset($customer->address)){
+            $order->address()->attach($customer->address->first()->id);
+        }else{
+            $order->address()->attach($employee->company->address->first()->id);
+        }
         
-        $order->address()->attach($customer->address->first()->id);
 
         $order->save();
-        return redirect()->route('index')->with('success', 'Votre commande à bien été prise en compte');
+
+        foreach (Cart::content() as $row) {
+            Cart::remove($row->rowId);
+        }
+
+        return  $return;
     }
 
     /**

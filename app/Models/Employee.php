@@ -28,4 +28,13 @@ class Employee extends Model
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
+
+    //Relation polymorph with orders
+    /**
+     * Get all of the orders for the company.
+     */
+    public function orders()
+    {
+        return $this->morphOne(Order::class, 'model');
+    }
 }

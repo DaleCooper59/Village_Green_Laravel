@@ -150,7 +150,7 @@ class insertDatas extends Command
         $user->assignRole('god');
 
         User::factory()->count(6)->create();
-        Company::factory()->count(6)->create();
+        Company::factory()->count(1)->create();
         Employee::factory()->count(6)->create();
         Customer::factory()->count(6)->create();
         Supplier::factory()->count(6)->create();

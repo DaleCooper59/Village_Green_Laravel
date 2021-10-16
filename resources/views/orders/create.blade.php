@@ -78,7 +78,7 @@
                 class="max-w-screen-md grid sm:grid-cols-2 gap-4 mx-auto">
                 @csrf
                 <input type="hidden" name="reduction" value="{{ $reduction }}">
-                <input type="hidden"  name="priceWithReduction" value="{{ $priceWithReduction }}">
+                <input type="hidden" name="priceWithReduction" value="{{ $priceWithReduction }}">
 
                 <!----paymentMethod---->
                 <div class="relative inline-flex sm:col-span-2">
@@ -93,24 +93,38 @@
                     </select>
 
                     @error('paymentMethod')
-                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                @enderror
+                        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!----address---->
                 <div class="sm:col-span-2">
-                    <label for="address" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Adresse postale</label>
-                    <textarea name="address" id="address" type="text" name="address" 
-                    class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300">
-                    {{ $address->street }} 
-                    {{$address->city->postal_code . ' ' . $address->city->name }}</textarea>
-                  
+                    <label for="address" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Adresse
+                        postale</label>
+                    <textarea name="address" id="address" type="text" name="address"
+                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300">
+                         @if (Auth::user()->employees)
+                         {{ $addressEmployee->street }} 
+                         {{ $addressEmployee->city->postal_code . ' ' . $addressEmployee->city->name }}
+                     @else
+                           {{ $address->street }} 
+                        {{ $address->city->postal_code . ' ' . $address->city->name }}
+                         @endif
+                            </textarea>
+
+
                 </div>
                 <!----deliveryAddress---->
                 <div class="sm:col-span-2">
-                    <label for="deliveryStreet" class="block text-gray-800 text-sm sm:text-base mb-2">Adresse de livraison</label>
-                    <input name="deliveryStreet" id="deliveryStreet" type="text" value="{{ $address->street }}"
-                    class="w-1/3 bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300" />
+                    <label for="deliveryStreet" class="block text-gray-800 text-sm sm:text-base mb-2">Adresse de
+                        livraison</label>
+                    <input name="deliveryStreet" id="deliveryStreet" type="text" @if (Auth::user()->employees)
+                    value="{{ $addressEmployee->street }}"
+                @else
+                    value="{{ $address->street }}"
+                    @endif
+                    class="w-1/3 bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300"
+                    />
                     <div class="flex w-1/3  justify-center sm:col-span-2">
                         @livewire('search')
                     </div>

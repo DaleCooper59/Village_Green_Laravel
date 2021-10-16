@@ -30,12 +30,5 @@ class Company extends Model
     }
 
 
-    //Relation polymorph with orders
-    /**
-     * Get all of the orders for the company.
-     */
-    public function orders()
-    {
-        return $this->morphOne(Order::class, 'model');
-    }
+    
 }
