@@ -48,19 +48,13 @@ class Order extends Model
     }
 
 
-    //Relation polymorph with companies and customers
+    //Relation polymorph one to many with companies and customers
      /**
-     * Get all of the company that are assigned this order.
+     * Get all of the model that are assigned this order.
      */
-    public function company()
+    public function model()
     {
         return $this->morphTo(__FUNCTION__, 'model_type', 'model_id');
-    }
-     /**
-     * Get all of the customer that are assigned this order.
-     */
-    public function customer()
-    {
-        return $this->morphTo(__FUNCTION__, 'model_type', 'model_id');
+       
     }
 }

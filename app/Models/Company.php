@@ -36,6 +36,6 @@ class Company extends Model
      */
     public function orders()
     {
-        return $this->morphMany(Order::class, 'model');
+        return $this->morphOne(Order::class, 'model');
     }
 }

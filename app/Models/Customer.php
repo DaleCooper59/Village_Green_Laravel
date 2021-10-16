@@ -34,9 +34,10 @@ class Customer extends Model
     /**
      * Get all of the orders for the customers.
      */
-    public function orders()
+    public function order()
     {
-        return $this->morphMany(Order::class, 'model');
+        //return $this->morphMany(Order::class, 'model');
+        return $this->morphOne(Order::class, 'model');
     }
 
     

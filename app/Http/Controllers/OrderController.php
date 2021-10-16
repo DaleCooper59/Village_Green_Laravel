@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,8 @@ class OrderController extends Controller
      */
     public function create(Customer $customer, Address $address, Product $products, Request $request)
     {
+        
+        $customer = Auth::user()->customers->first();
         $address = $customer->address->first();
 
         $rows = Cart::content();
@@ -61,24 +64,24 @@ class OrderController extends Controller
     {
         
         $amount = Auth::user()->customers->type === 'particulier' ? 'totalité' : 'paiement différé';
+        $payDate = $amount === 'totalité' ? Carbon::now() : '';
         $order = Order::create([
             'qunatity_total' => Cart::count(),
             'discount' => $request->reduction,
             'extra-discount' => null,
             'tax' => Cart::tax(),
             'amount_paid' => $amount,
-            'payment_method' => $request->color,
-            'unit_price_HT' => $request->unit_price_HT,
-            'supply_ref' => $request->supply_ref,
-            'supply_product_name' => $request->supply_product_name,
-            'supply_unit_price_HT' => $request->supply_unit_price_HT,
-            'stock' => $request->stock,
-            'stock_alert' => $request->stock_alert
+            'payment_method' => $request->paymentMethod,
+            'payment_date' =>  $payDate,
+            'shipping_status' => 'En préparation',
+            'shipping_date' => null,
         ]);
+        $order->customer
+//attach model type to customer
+        $address = $request->address === $request->deliveryAddress ? $request->address : $request->deliveryAddress;
+        $order->address()->attach($address->id);
 
-        $product->categories()->attach($request->category);
-
-        return redirect()->route('products.show', $product->id)->with('success', 'Votre produit a bien été ajouté');
+        return redirect()->route('index')->with('success', 'Votre commande à bien ét prise en compte');
     }
 
     /**
