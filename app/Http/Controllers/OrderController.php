@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Events\StockLowEvent;
 
 class OrderController extends Controller
 {
@@ -110,13 +111,15 @@ class OrderController extends Controller
             $product = Product::where('label', $row->name)->first();
             $order->products()->attach($product->id);
             $newQty = $product->stock - $row->qty;
+            //event si stock alert est dépassé pour notifié l'équipe suply
+            $newQty < $product->stock_alert ? event(new StockLowEvent($product)) : '';
             $product->update([
                 'stock' => $newQty
             ]);
             $product->save;
         }
         
-        /////event pour stock alert
+        /////event pour stock alert => dans l'administration to do concernant les choses à faire
 
         $employee = Auth::user()->employees->first();
 
