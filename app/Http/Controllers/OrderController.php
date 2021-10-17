@@ -103,9 +103,27 @@ class OrderController extends Controller
             'shipping_date' => null,
         ]);
 
+        /**
+         * Association commande/produit et mise à jour stock
+         */
+        foreach(Cart::content() as $row){
+            $product = Product::where('label', $row->name)->first();
+            $order->products()->attach($product->id);
+            $newQty = $product->stock - $row->qty;
+            $product->update([
+                'stock' => $newQty
+            ]);
+            $product->save;
+        }
+        
+        /////event pour stock alert
+
         $employee = Auth::user()->employees->first();
 
     
+        /**
+         * recherche si l'adresse postale du payeur = l'adresse de livraison
+         */
         if(isset($customer->address)){
             $order->model()->associate($customer)->save();
             $addressPostalStreet = $customer->address->first()->street;
