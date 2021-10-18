@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendInvoicePDF;
 use App\Models\Address;
 use App\Models\Category;
 use App\Models\City;
@@ -17,6 +18,9 @@ use App\Events\StockLowEvent;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 class OrderController extends Controller
 {
@@ -202,11 +206,30 @@ class OrderController extends Controller
 
         $order->save();
 
+        //generation de facture
+        $customer = new Buyer([
+            'name'          => 'John Doe',
+            'custom_fields' => [
+                'email' => 'test@example.com',
+            ],
+        ]);
+
+        $item = (new InvoiceItem())->title('Service 1')->pricePerUnit(2);
+
+        $invoice = Invoice::make()
+            ->buyer($customer)
+            ->discountByPercent(10)
+            ->taxRate(15)
+            ->shipping(1.99)
+            ->addItem($item);
+
+            ;
+
         foreach (Cart::content() as $row) {
             Cart::remove($row->rowId);
         }
 
-        return  $returnSuccess;
+        return event(new SendInvoicePDF($invoice->stream()));
     }
 
     /**

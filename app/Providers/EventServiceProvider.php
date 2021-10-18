@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\SendInvoicePDF;
 use App\Events\StockLowEvent;
+use App\Listeners\SendInvoiceListener;
 use App\Listeners\StockLowListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
         StockLowEvent::class => [
             StockLowListener::class,
         ],
+        SendInvoicePDF::class => [
+            SendInvoiceListener::class,
+        ],
+       
     ];
 
     /**

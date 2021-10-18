@@ -136,7 +136,7 @@
                 <!----submit---->
                 <div class="sm:col-span-2 flex justify-between items-center">
                     <button type="submit"
-                        class="font-semibold py-1 px-4 mr-3 rounded shadow cursor-pointer inline-block m-0 mb-1 font-medium bg-red_custom-light hover:bg-red_custom">Ajouter</button>
+                        class="font-semibold py-1 px-4 mr-3 rounded shadow cursor-pointer inline-block m-0 mb-1 bg-red_custom-light hover:bg-red_custom">Ajouter</button>
                     <!----required---->
                     <span class="text-gray-500 text-sm">*Champs requis</span>
                 </div>
