@@ -63,7 +63,7 @@ class insertDatas extends Command
          */
         Address::factory()->count(6)->create();
 
-        User::create(
+        $dale = User::create(
             [
                 'username' => 'Dale',
                 'firstname' => 'Chris',
@@ -80,7 +80,7 @@ class insertDatas extends Command
 
         );
 
-        User::create(
+        $rob= User::create(
             [
                 'username' => 'Robert',
                 'firstname' => 'Rob',
@@ -147,6 +147,8 @@ class insertDatas extends Command
 
         $customer1->save();
 
+        $dale->assignRole('supply');
+        $rob->assignRole('supply');
         $user->assignRole('god');
 
         User::factory()->count(6)->create();

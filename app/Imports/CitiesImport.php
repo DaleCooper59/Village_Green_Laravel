@@ -15,6 +15,7 @@ class CitiesImport implements ToModel
     */
     public function model(array $row)
     {
+        //csv src = https://sql.sh/736-base-donnees-villes-francaises
         $france = Country::where('name', 'France')->first();
         return new City([
             'id' => $row[0],

@@ -21,7 +21,13 @@
         <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
             <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
                 <div>
-                    <div class="h-56 md:h-auto mt-10 bg-gray-100 overflow-hidden rounded-lg shadow-lg">
+                    
+                  @if($products->stock === 0)
+                    <div class="h-56 md:h-auto mt-10 bg-gray-100 overflow-hidden rounded-lg shadow-lg opacity-50">
+                   @else
+                   <div class="h-56 md:h-auto mt-10 bg-gray-100 overflow-hidden rounded-lg shadow-lg">
+                   @endif
+                   
                         @if ($products->id <= 40)
                             <img src="{{ asset('img/' . $products->picture) }}" loading="lazy"
                                 alt="{{ $products->label }}" class="w-full h-full object-cover object-center">
@@ -29,8 +35,8 @@
                             <img src="{{ Storage::url($products->picture) }}" loading="lazy"
                                 alt="{{ $products->label }}" class="w-full h-full object-cover object-center">
                         @endif
-
                     </div>
+                    
                 </div>
 
                 <div class="md:pt-8">
@@ -62,73 +68,80 @@
                     </p>
 
 
-                    <form action="{{ route('basket.store') }}" method="post">
-                        @csrf
-                        <input type="hidden" name="id" value="{{ $products->id }}">
-                        <input type="hidden" name="label" value="{{ $products->label }}">
-                        <input type="hidden" name="price" value="{{ $products->unit_price_HT }}">
-                        <div class="w-full">
-                            <div class="custom-number-input h-7 w-32 flex items-center m-3">
-                                <label for="quantity" class="w-full underline text-gray-700 text-sm font-semibold">Quantité:
-                                </label>
-                                <div class="flex flex-row h-7 w-full rounded-lg relative bg-transparent mt-1">
+                    @if ($products->stock > 0)
 
-                                    <a href="#" onclick="decrement()" data-action="decrement"
-                                        class="block ml-2 border-0 text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-300 rounded-l cursor-pointer outline-none">
-                                        −
-                                    </a>
-                                    <input type="text" name="quantity" min="1"
-                                        class="w-16 font-semibold text-center text-gray-700  border-0 outline-none focus:outline-none hover:text-black focus:text-black"
-                                        value="1" />
-                                    <a href="#" onclick="increment()" data-action="increment"
-                                        class="block border-0 text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-300 rounded-r cursor-pointer">
-                                        +
-                                    </a>
+                        <form action="{{ route('basket.store') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $products->id }}">
+                            <input type="hidden" name="label" value="{{ $products->label }}">
+                            <input type="hidden" name="price" value="{{ $products->unit_price_HT }}">
+
+                            <div class="w-full">
+                                <div class="custom-number-input h-7 w-32 flex items-center m-3">
+                                    <label for="quantity"
+                                        class="w-full underline text-gray-700 text-sm font-semibold">Quantité:
+                                    </label>
+                                    <div class="flex flex-row h-7 w-full rounded-lg relative bg-transparent mt-1">
+
+                                        <a href="#" onclick="decrement()" data-action="decrement"
+                                            class="block ml-2 border-0 text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-300 rounded-l cursor-pointer outline-none">
+                                            −
+                                        </a>
+                                        <input type="text" name="quantity" min="1"
+                                            class="w-16 font-semibold text-center text-gray-700  border-0 outline-none focus:outline-none hover:text-black focus:text-black"
+                                            value="1" />
+                                        <a href="#" onclick="increment()" data-action="increment"
+                                            class="block border-0 text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-300 rounded-r cursor-pointer">
+                                            +
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div
+                                class="relative max-w-sm md:min-w-[340px] bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
+                                <div class="mt-4 pl-2 mb-2 flex flex-col lg:flex-row justify-between ">
+                                    <div>
+                                        <p class="text-lg text-gray-900 mb-0">Prix à l'unité</p>
+
+                                        <p class="text-md font-bold text-gray-800 mt-0">
+                                            @auth
+                                                @if (Count(Auth::user()->customers))
+                                                    {{ number_format($products->unit_price_HT * (1 + Auth::user()->customers[0]->coefficient / 100), 2, ',', ' ') }}
+                                                @elseif(Count(Auth::user()->employees))
+                                                    {{ number_format($products->unit_price_HT * (1 + Auth::user()->employees[0]->coefficient / 100), 2, ',', ' ') }}
+                                                @endauth
+
+                                            @else
+                                                {{ $products->unit_price_HT }}
+                                            @endif
+                                            € <small> hors taxe</small>
+                                        </p>
+                                    </div>
+
+
+                                    <div class="flex md:flex-col md:mt-0 mt-2 mb-1 mr-4 group ">
+                                        <a href="#" id="like"
+                                            class='cursor-pointer md:px-0 px-2 hover:opacity-90 opacity-70'>
+                                            <i class="far fa-heart"></i>
+                                        </a>
+
+                                        <button type="submit" id="addToCart"
+                                            class='cursor-pointer  hover:opacity-90 opacity-70'>
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+
+
+                                    </div>
 
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div
-                            class="relative max-w-sm md:min-w-[340px] bg-white shadow-md rounded-3xl p-2 mx-1 my-3 cursor-pointer">
-                            <div class="mt-4 pl-2 mb-2 flex flex-col lg:flex-row justify-between ">
-                                <div>
-                                    <p class="text-lg text-gray-900 mb-0">Prix à l'unité</p>
-
-                                    <p class="text-md font-bold text-gray-800 mt-0">
-                                   @auth
-                                       @if (Count(Auth::user()->customers))
-                                           {{ number_format($products->unit_price_HT * (1 + Auth::user()->customers[0]->coefficient / 100), 2, ',', ' ') }}
-                                        @elseif(Count(Auth::user()->employees))
-                                            {{ number_format($products->unit_price_HT * (1 + Auth::user()->employees[0]->coefficient / 100), 2, ',', ' ') }}
-                                   @endauth
-                                        
-                                        @else
-                                            {{ $products->unit_price_HT }}
-                                        @endif
-                                        € <small> hors taxe</small>
-                                    </p>
-                                </div>
-
-
-                                <div class="flex md:flex-col md:mt-0 mt-2 mb-1 mr-4 group ">
-                                    <a href="#" id="like" class='cursor-pointer md:px-0 px-2 hover:opacity-90 opacity-70'>
-                                        <i class="far fa-heart"></i>
-                                    </a>
-
-                                    <button type="submit" id="addToCart"
-                                        class='cursor-pointer  hover:opacity-90 opacity-70'>
-                                        <i class="fas fa-shopping-cart"></i>
-                                    </button>
-
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </form>
-
+                        </form>
+                    @else
+                        <p>Ce produit est épuisé</p>
+                    @endif
 
 
                 </div>

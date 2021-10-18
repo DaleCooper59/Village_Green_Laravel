@@ -14,6 +14,9 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Events\StockLowEvent;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
@@ -42,12 +45,12 @@ class OrderController extends Controller
             return 0;
         }
 
-        $addressEmployee ='';
+        $addressEmployee = '';
         $address = $customer->address->first();
-        if(isset($employee->company->address)){
+        if (isset($employee->company->address)) {
             $addressEmployee = $employee->company->address->first();
         }
-        
+
 
         $rows = Cart::content();
         if (!empty($request->code)) {
@@ -76,21 +79,33 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $return = redirect()->route('index')->with('success', 'Votre commande à bien été prise en compte');
+
+        $returnSuccess = redirect()->route('index')->with('success', 'Votre commande à bien été prise en compte');
+        $returnError = redirect()->route('index')->with('error', 'Votre commande n\'a pas été vaildée');
         //customer?
         $customer = Auth::user()->customers->first();
-        
+
         if (Auth::user()->customers === null) {
-           if($customer->type === 'particulier'){
+            if ($customer->type === 'particulier') {
                 $amount =  'totalité';
-           }else{
-               $amount = 'paiement différé';
-           }
-        }else{
-             $amount = 'totalité';
+            } else {
+                $amount = 'paiement différé';
+            }
+        } else {
+            $amount = 'totalité';
         }
-       
+
         $payDate = $amount === 'totalité' ? Carbon::now() : '';
+
+        $validator = Validator::make($request->all(), [
+            'paymentMethod' => ['required', Rule::notIn(['--Choisissez une méthode de paiement--'])],
+        ]);
+
+        if ($validator->fails()) {
+            //clear success message before redirect to index to avoid double message
+            Session::forget(['success']);
+            return $returnError;
+        }
 
         $order = Order::create([
             'quantity_total' => Cart::count(),
@@ -107,30 +122,33 @@ class OrderController extends Controller
         /**
          * Association commande/produit et mise à jour stock
          */
-        foreach(Cart::content() as $row){
+        foreach (Cart::content() as $row) {
             $product = Product::where('label', $row->name)->first();
             $order->products()->attach($product->id);
             $newQty = $product->stock - $row->qty;
-            //event si stock alert est dépassé pour notifié l'équipe suply
-            $newQty < $product->stock_alert ? event(new StockLowEvent($product)) : '';
+
+            /**
+             *  event écouté si stock alert est dépassé pour notifié l'équipe suply
+             *  */
+            $newQty < $product->stock_alert || $newQty === 0 ? event(new StockLowEvent($product)) : '';
             $product->update([
                 'stock' => $newQty
             ]);
             $product->save;
         }
-        
+
         /////event pour stock alert => dans l'administration to do concernant les choses à faire
 
         $employee = Auth::user()->employees->first();
 
-    
+
         /**
          * recherche si l'adresse postale du payeur = l'adresse de livraison
          */
-        if(isset($customer->address)){
+        if (isset($customer->address)) {
             $order->model()->associate($customer)->save();
             $addressPostalStreet = $customer->address->first()->street;
-        }else {
+        } else {
             $order->model()->associate($employee)->save();
             $addressPostalStreet = $employee->company->address->first()->street;
         }
@@ -147,7 +165,7 @@ class OrderController extends Controller
                     //ville existe dans la bdd + rue
                     $order->address()->attach($find->id);
                     $order->save();
-                    return $return;
+                    return $returnSuccess;
                 } else {
                     $newCity = City::create([
                         'name' => $request->city,
@@ -156,10 +174,14 @@ class OrderController extends Controller
                     $find->city->associate($newCity);
                     $order->address()->attach($find->id);
                     $order->save();
-                    return  $return;
+                    return  $returnSuccess;
                 }
             }/*sinon*/ else {
                 $city1 = City::where('name', $request->city)->first();
+                $request->validate([
+                    'street' => ['required', 'max:255'],
+                    'city_id' => ['required'],
+                ]);
                 $ad = Address::create([
                     'street' => $request->deliveryStreet,
                     'city_id' => $city1->id,
@@ -167,16 +189,16 @@ class OrderController extends Controller
 
                 $order->address()->attach($ad->id);
                 $order->save();
-                return  $return;
+                return  $returnSuccess;
             }
         }
 
-        if(isset($customer->address)){
+        if (isset($customer->address)) {
             $order->address()->attach($customer->address->first()->id);
-        }else{
+        } else {
             $order->address()->attach($employee->company->address->first()->id);
         }
-        
+
 
         $order->save();
 
@@ -184,7 +206,7 @@ class OrderController extends Controller
             Cart::remove($row->rowId);
         }
 
-        return  $return;
+        return  $returnSuccess;
     }
 
     /**

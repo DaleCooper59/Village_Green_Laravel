@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, HasRoles;
 
     protected $table = 'employees';
+
+    public $guard_name = 'web';
 
     protected $guarded = [];
 
@@ -27,6 +30,14 @@ class Employee extends Model
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    /**
+     * Get all the tasks for this employee.
+     */
+    public function todos()
+    {
+        return $this->belongsToMany(Todo::class, 'employee_todo', 'employee_id', 'todo_id');
     }
 
     //Relation polymorph with orders

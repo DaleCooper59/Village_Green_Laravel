@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class roleGod extends Command
+class initRoleAndPermission extends Command
 {
 
     /**
@@ -21,7 +21,7 @@ class roleGod extends Command
      *
      * @var string
      */
-    protected $description = 'give all permission to god role';
+    protected $description = 'gives roles and permissions and all for god';
 
     /**
      * Create a new command instance.
@@ -60,5 +60,7 @@ class roleGod extends Command
         $roleAll = Role::all();
         $permissionRead = Permission::whereName('read')->first();
         $permissionRead->syncRoles($roleAll);
+
+
     }
 }

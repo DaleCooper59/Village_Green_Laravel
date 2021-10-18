@@ -102,6 +102,7 @@ class ProductController extends Controller
      */
     public function show(Product $products)
     {
+        
         $categoriesParent = Category::where('parent_id', null)->get();
         return view('products.show', compact('products', 'categoriesParent'));
     }

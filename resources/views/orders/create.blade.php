@@ -101,16 +101,15 @@
                 <div class="sm:col-span-2">
                     <label for="address" class="inline-block text-gray-800 text-sm sm:text-base mb-2">Adresse
                         postale</label>
-                    <textarea name="address" id="address" type="text" name="address"
-                        class="w-full bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300">
-                             @if (isset($addressEmployee->street))
-                             {{ $addressEmployee->street }} 
-                             {{ $addressEmployee->city->postal_code . ' ' . $addressEmployee->city->name }}
-                     @else
-                               {{ $address->street }} 
-                            {{ $address->city->postal_code . ' ' . $address->city->name }}
-                             @endif
-                                </textarea>
+                    <textarea name="address" id="address" type="text" rows="2"
+                        class="form-textarea mt-1 pl-1 flex w-1/2 bg-gray-50 text-gray-800 border focus:ring ring-indigo-300 rounded outline-none transition duration-100 px-3 py-2 placeholder-gray-300 overflow-hidden">@if(isset($addressEmployee->street))
+                        {{ $addressEmployee->street }}
+                        {{ $addressEmployee->city->postal_code . ' ' . $addressEmployee->city->name }}
+                        @else
+                        {{ $address->street }}
+                        {{ $address->city->postal_code . ' ' . $address->city->name }}
+                        @endif
+                    </textarea>
 
 
                 </div>
