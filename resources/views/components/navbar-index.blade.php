@@ -1,5 +1,5 @@
 <div>
-    <nav id="header" class="fixed bg-gray-300 text-white w-full lg:w-3/4 h-20 z-40 top-10">
+    <nav id="header" class="fixed bg-gray-300 w-full lg:w-3/4 h-20 z-40 top-10">
         <div id="progress" class="h-1 z-40 top-10"
             style="background:linear-gradient(to right, #D08591 var(--scroll), transparent 0);"></div>
         <div class="w-full mx-auto flex flex-wrap items-center justify-between h-20 mt-0 ">
