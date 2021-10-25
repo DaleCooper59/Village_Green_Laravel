@@ -229,7 +229,13 @@ class OrderController extends Controller
             Cart::remove($row->rowId);
         }
 
-        return event(new SendInvoicePDF($invoice->stream()));
+       // return event(new SendInvoicePDF($invoice->stream()));
+       $products = Product::all();
+       $categories = Category::all();
+       $categoriesParent =  Category::whereNull('parent_id')->with('children')->get();
+       $customers = Customer::all();
+       return view('index', compact('products', 'categories', 'categoriesParent', 'customers'))->with('success', 'Commande bien prise en compte');
+      
     }
 
     /**
